@@ -1,0 +1,294 @@
+<!DOCTYPE HTML>
+<html lang="en" class="sidebar-visible no-js light">
+    <head>
+        <!-- Book generated using mdBook -->
+        <meta charset="UTF-8">
+        <title>异步编程的演进 - 动手学 rust-libp2p</title>
+
+
+        <!-- Custom HTML head -->
+        
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="theme-color" content="#ffffff" />
+
+        <link rel="icon" href="favicon.svg">
+        <link rel="shortcut icon" href="favicon.png">
+        <link rel="stylesheet" href="css/variables.css">
+        <link rel="stylesheet" href="css/general.css">
+        <link rel="stylesheet" href="css/chrome.css">
+        <link rel="stylesheet" href="css/print.css" media="print">
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="FontAwesome/css/font-awesome.css">
+        <link rel="stylesheet" href="fonts/fonts.css">
+
+        <!-- Highlight.js Stylesheets -->
+        <link rel="stylesheet" href="highlight.css">
+        <link rel="stylesheet" href="tomorrow-night.css">
+        <link rel="stylesheet" href="ayu-highlight.css">
+
+        <!-- Custom theme stylesheets -->
+
+    </head>
+    <body>
+        <!-- Provide site root to javascript -->
+        <script type="text/javascript">
+            var path_to_root = "";
+            var default_theme = window.matchMedia("(prefers-color-scheme: dark)").matches ? "navy" : "light";
+        </script>
+
+        <!-- Work around some values being stored in localStorage wrapped in quotes -->
+        <script type="text/javascript">
+            try {
+                var theme = localStorage.getItem('mdbook-theme');
+                var sidebar = localStorage.getItem('mdbook-sidebar');
+
+                if (theme.startsWith('"') && theme.endsWith('"')) {
+                    localStorage.setItem('mdbook-theme', theme.slice(1, theme.length - 1));
+                }
+
+                if (sidebar.startsWith('"') && sidebar.endsWith('"')) {
+                    localStorage.setItem('mdbook-sidebar', sidebar.slice(1, sidebar.length - 1));
+                }
+            } catch (e) { }
+        </script>
+
+        <!-- Set the theme before any content is loaded, prevents flash -->
+        <script type="text/javascript">
+            var theme;
+            try { theme = localStorage.getItem('mdbook-theme'); } catch(e) { }
+            if (theme === null || theme === undefined) { theme = default_theme; }
+            var html = document.querySelector('html');
+            html.classList.remove('no-js')
+            html.classList.remove('light')
+            html.classList.add(theme);
+            html.classList.add('js');
+        </script>
+
+        <!-- Hide / unhide sidebar before it is displayed -->
+        <script type="text/javascript">
+            var html = document.querySelector('html');
+            var sidebar = 'hidden';
+            if (document.body.clientWidth >= 1080) {
+                try { sidebar = localStorage.getItem('mdbook-sidebar'); } catch(e) { }
+                sidebar = sidebar || 'visible';
+            }
+            html.classList.remove('sidebar-visible');
+            html.classList.add("sidebar-" + sidebar);
+        </script>
+
+        <nav id="sidebar" class="sidebar" aria-label="Table of contents">
+            <div class="sidebar-scrollbox">
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html" class="active"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
+            </div>
+            <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
+        </nav>
+
+        <div id="page-wrapper" class="page-wrapper">
+
+            <div class="page">
+                                <div id="menu-bar-hover-placeholder"></div>
+                <div id="menu-bar" class="menu-bar sticky bordered">
+                    <div class="left-buttons">
+                        <button id="sidebar-toggle" class="icon-button" type="button" title="Toggle Table of Contents" aria-label="Toggle Table of Contents" aria-controls="sidebar">
+                            <i class="fa fa-bars"></i>
+                        </button>
+                        <button id="theme-toggle" class="icon-button" type="button" title="Change theme" aria-label="Change theme" aria-haspopup="true" aria-expanded="false" aria-controls="theme-list">
+                            <i class="fa fa-paint-brush"></i>
+                        </button>
+                        <ul id="theme-list" class="theme-popup" aria-label="Themes" role="menu">
+                            <li role="none"><button role="menuitem" class="theme" id="light">Light (default)</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="rust">Rust</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="coal">Coal</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="navy">Navy</button></li>
+                            <li role="none"><button role="menuitem" class="theme" id="ayu">Ayu</button></li>
+                        </ul>
+                        <button id="search-toggle" class="icon-button" type="button" title="Search. (Shortkey: s)" aria-label="Toggle Searchbar" aria-expanded="false" aria-keyshortcuts="S" aria-controls="searchbar">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+
+                    <h1 class="menu-title">动手学 rust-libp2p</h1>
+
+                    <div class="right-buttons">
+                        <a href="print.html" title="Print this book" aria-label="Print this book">
+                            <i id="print-button" class="fa fa-print"></i>
+                        </a>
+                        <a href="https://github.com/thy1037/libp2p-course" title="Git repository" aria-label="Git repository">
+                            <i id="git-repository-button" class="fa fa-github"></i>
+                        </a>
+
+                    </div>
+                </div>
+
+                <div id="search-wrapper" class="hidden">
+                    <form id="searchbar-outer" class="searchbar-outer">
+                        <input type="search" id="searchbar" name="searchbar" placeholder="Search this book ..." aria-controls="searchresults-outer" aria-describedby="searchresults-header">
+                    </form>
+                    <div id="searchresults-outer" class="searchresults-outer hidden">
+                        <div id="searchresults-header" class="searchresults-header"></div>
+                        <ul id="searchresults">
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Apply ARIA attributes after the sidebar and the sidebar toggle button are added to the DOM -->
+                <script type="text/javascript">
+                    document.getElementById('sidebar-toggle').setAttribute('aria-expanded', sidebar === 'visible');
+                    document.getElementById('sidebar').setAttribute('aria-hidden', sidebar !== 'visible');
+                    Array.from(document.querySelectorAll('#sidebar a')).forEach(function(link) {
+                        link.setAttribute('tabIndex', sidebar === 'visible' ? 0 : -1);
+                    });
+                </script>
+
+                <div id="content" class="content">
+                    <main>
+                        <h1 id="异步编程的演进"><a class="header" href="#异步编程的演进">异步编程的演进</a></h1>
+<h2 id="1-单片机裸机程序无操作系统无多线程调度"><a class="header" href="#1-单片机裸机程序无操作系统无多线程调度">1. 单片机裸机程序（无操作系统、无多线程、调度）</a></h2>
+<p>只能有一个工作流。所以全部都是非阻塞函数，通过轮询的方式执行。这种最简单的嵌入式设备的程序，工作内容明确，业务逻辑简单，只需设计好执行流程，都可以解决。</p>
+<pre><code class="language-c">while (1) {
+    func1();
+    task1();
+    func2();
+    task2();
+    ...
+}
+</code></pre>
+<p>简单、高效、易于调试，唯一的缺点就是业务逻辑的复杂度上限取决于函数和执行流的设计。</p>
+<h2 id="2-有了不确定的ioui交互"><a class="header" href="#2-有了不确定的ioui交互">2. 有了不确定的I/O、UI交互</a></h2>
+<p>增加了串口接收、解析、应答报文；按键响应、屏幕刷新。这时最简单粗暴的方式是使用中断，前后台的程序框架，而且串口的任务放在串口中断里，屏幕刷新放在定时器中断里，按钮任务放在引脚的外部中断。</p>
+<p>这种方式除了简单，其他都是缺点。如代码逻辑分散（不是高内聚低耦合）；中断内停留时间过长；大量的全局变量、频繁的数据竞争等等。</p>
+<p>稍好一些，也是主流的做法是在中断内置标志位，前台程序中轮询标志位，根据标志位执行任务。此时其实已经有异步编程的意思了。</p>
+<h2 id="3-有了操作系统多任务多线程"><a class="header" href="#3-有了操作系统多任务多线程">3. 有了操作系统（多任务、多线程）</a></h2>
+<p>支持多个工作流。这时的设计空间就很大了，有一种方式就是回调函数：既然当前无法获取资源、也不知道何时可以获取到，那就指定一个有资源时该干的事，然后执行开一个工作流的单独等待、执行。如各类 UI 框架的事件回调函数，最明显的就是按钮点击函数，优点是代码书写自然，符合设计直觉。但有一类情况，如：</p>
+<p>JS的xhr请求处理：</p>
+<pre><code class="language-javascript">var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+        document.getElementById(&quot;myDiv&quot;).innerHTML = xhr.responseText;
+    }
+}
+</code></pre>
+<p>Qt 的 QModbus 客户端请求：</p>
+<pre><code class="language-c++">bool MyModbus::ReadCoils()
+{
+    QModbusDataUnit read_unit(QModbusDataUnit::Coils, start_add, numbers);
+    if (auto *reply = my_client-&gt;sendReadRequest(read_unit, server_id)) {
+        if (!reply-&gt;isFinished()) {
+            connect(reply, QModbusReply::finished, this, &amp;MyModbus::ReadReadyCoils);
+            return true;
+        } else {
+            delete reply;
+            return false;
+        }
+    }
+
+    return false;
+}
+
+void MyModbus::ReadReadyCoils()
+{
+    // ...
+}
+</code></pre>
+<p>这类 I/O 事件除了有本次的确定性，还有多个事件执行顺序的确定性。如果有多个请求，且后面的请求依赖前一次的请求结果，那就需要将后面的代码写在前一次的回调函数内，就此，形成著名的回调地狱（Callback Hell）问题。</p>
+<h2 id="4-async-编程"><a class="header" href="#4-async-编程">4. async 编程</a></h2>
+<p>async 是 Rust 选择的异步编程模型。这种模型在异步执行的本质下，有同步代码的书写逻辑。</p>
+<p>先思考一个问题，在没有 async 之前，如果要解决回调地狱，你会怎么做？</p>
+<p>一种做法是编写一个函数，定时轮询前次的结果，如：</p>
+<pre><code class="language-c">void sync(void *result) {
+    while (!is_done(result)) {
+        mdelay(10);
+    }
+}
+</code></pre>
+<p>将这样的函数嵌在异步任务之间，或者将回调函数定位轮询的结束条件，如 Qt 中：</p>
+<pre><code class="language-c++">if (!reply-&gt;isFinished()) {
+    QEventLoop loop;
+    connect(reply, &amp;QModbusReply::finished, &amp;loop, &amp;QEventLoop::quit);
+    loop.exec();
+}
+</code></pre>
+<p>另一种做法是编写一个内部创建互斥量的函数，将互斥量传递给异步任务，由异步任务完成后释放互斥量，在函数在返回前等待互斥量，形如：</p>
+<pre><code class="language-c">typedef void(*sync_func_t)(mutex_t*);
+
+void sync(sync_func_t func) {
+    mutex_t *mutex = mutex_new();
+    func(mutex);
+    mutex_take(mutex);
+}
+</code></pre>
+<p>这是 C 语言的形式，如果用 C++ 或其他带对面的语言，可以使用链式调用的形式写出更优雅的代码，如将互斥量返回：</p>
+<pre><code class="language-c">typedef void(*async_func_t)(mutex_t*);
+
+mutex_t* async(async_func_t func) {
+    mutex_t *mutex = mutex_new();
+    func(mutex);
+    mutex_take(mutex);
+    return mutex;
+}
+
+void foo(void) {
+    async(func1).take_delete();
+}
+</code></pre>
+<p>这个就是 async 编程的基本模型，对我来讲是一种很自然的演进方式。编译器专家在从编译器层面支持了 async、await 语法。async 的底层不会这么简单，是有着一套复杂的设计，而且每种语言都有自己的独特实现，JS 和 Rust 就是完全不同的两种实现方式。</p>
+<p>以上方法的本质其实是：当前线程主动让出 CPU。以阻塞任务或耗时任务，单独运行在一个线程中，以阻塞当前线程的方式，让其它任务执行，一次实现并发。但线程是很重的，线程间切换、上下文切换是一个繁重的开销，数量少时没感觉，但如 web 服务器这样的场景，少则成百上千，多则百万上亿，哪怕线程池也难以处理。所以又多了一个协程的概念，一个线程可以有多个协程，Rust 的 async .await 底层就是协程支持的。 </p>
+<h3 id="async-和多线程的性能对比"><a class="header" href="#async-和多线程的性能对比">async 和多线程的性能对比</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>操作</th><th>async</th><th>线程</th></tr></thead><tbody>
+<tr><td>创建</td><td>0.3 微秒</td><td>17 微秒</td></tr>
+<tr><td>切换</td><td>0.2 微秒</td><td>1.7 微秒</td></tr>
+</tbody></table>
+</div>
+                    </main>
+
+                    <nav class="nav-wrapper" aria-label="Page navigation">
+                        <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="异步编程.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
+
+                            <a rel="next" href="async-demo1.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+
+                        <div style="clear: both"></div>
+                    </nav>
+                </div>
+            </div>
+
+            <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="异步编程.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
+
+                    <a rel="next" href="async-demo1.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                        <i class="fa fa-angle-right"></i>
+                    </a>
+            </nav>
+
+        </div>
+
+
+
+
+        <script type="text/javascript">
+            window.playground_copyable = true;
+        </script>
+
+
+        <script src="elasticlunr.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="mark.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="searcher.js" type="text/javascript" charset="utf-8"></script>
+
+        <script src="clipboard.min.js" type="text/javascript" charset="utf-8"></script>
+        <script src="highlight.js" type="text/javascript" charset="utf-8"></script>
+        <script src="book.js" type="text/javascript" charset="utf-8"></script>
+
+        <!-- Custom JS scripts -->
+
+
+    </body>
+</html>

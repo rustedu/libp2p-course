@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="chapter_1.html"><strong aria-hidden="true">1.</strong> Chapter 1</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -146,7 +146,648 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="chapter-1"><a class="header" href="#chapter-1">Chapter 1</a></h1>
+                        <h1 id="lesson-2"><a class="header" href="#lesson-2">Lesson 2</a></h1>
+<h2 id="floodsub-导读"><a class="header" href="#floodsub-导读"><code>Floodsub</code> 导读</a></h2>
+<ul>
+<li>公共方法</li>
+<li><code>Flood</code> 的实现</li>
+</ul>
+<h2 id="异步编程介绍"><a class="header" href="#异步编程介绍">异步编程介绍</a></h2>
+<ul>
+<li>异步编程的演进</li>
+<li>通过例子深入体会异步编程</li>
+</ul>
+<h2 id="rust-工程"><a class="header" href="#rust-工程">Rust 工程</a></h2>
+<ul>
+<li>常用目录结构举例</li>
+<li>测试、属性</li>
+</ul>
+<h2 id="实践作业"><a class="header" href="#实践作业">实践作业</a></h2>
+<ol>
+<li>
+<p>为 <code>chat</code> 用例添加测试</p>
+<p>tips：测例内容不是重点，实现尽可能多的测例形式</p>
+</li>
+<li>
+<p>以 <code>@user messages</code> 的形式实现私聊</p>
+<p>tips：可以分别从 <strong>发送</strong> 和 <strong>接收显示</strong> 两个方面考虑，并实现</p>
+</li>
+</ol>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="floodsub-代码导读"><a class="header" href="#floodsub-代码导读">Floodsub 代码导读</a></h1>
+<p>普遍的中文名称是：洪泛订阅。基于 发布-订阅 模式的一种通讯协议。物联网人熟知的 <code>MQTT</code> 也是这种模式。早期的报纸订阅、现在的各类 APP 中关注作者、账号、频道，等等，都是这种模式的真实写照。</p>
+<p>这种模式可以有效隔离发送者和接收的联系，让各方只包含自己该处理的内容，以达到从设计上的代码解耦效果。</p>
+<pre><code>protocols/floodsub/
+├── build.rs            // 主要用来编译 Protocol Buffers
+├── Cargo.toml
+├── CHANGELOG.md
+└── src
+    ├── layer.rs        // behaviour layer 行为（描述）层
+    ├── lib.rs          // 对外接口描述
+    ├── protocol.rs     // 协议的数据类型
+    ├── rpc.proto       // Protocol Buffers 格式描述文件
+    └── topic.rs        // 主题模块
+
+1 directory, 8 files
+</code></pre>
+<h2 id="其它文件浏览"><a class="header" href="#其它文件浏览">其它文件浏览</a></h2>
+<p><code>Floodsub</code> 基本逻辑就是<strong>订阅消息</strong>、<strong>发送消息</strong>与<strong>传递消息</strong>。每一个节点在收到消息后，都会对连接的全部节点进行发送消息，“一传十，十传百”，真的就是字面上的意思，所以会造成大量的重复发送，是一种以带宽换取传播速度的方式，适合小型网络。</p>
+<ul>
+<li><code>topic.rs</code>：定义了主题的数据结构，为其添加 <code>From&lt;Topic&gt;</code> trait，以此实现主题的创建；</li>
+<li><code>protocol.rs</code>: 协议传输相关内容，定义了协议和消息的数据结构，实现了协议的升级 trait，消息的解析、打包 trait；</li>
+<li><code>rpc.proto</code>:消息内容的 protobuf 描述文件，会经过 <code>build.rs</code> 里定义的行为，在编译初期转换为 rust 代码；</li>
+<li><code>lib.rs</code>: <code>Floodsub</code> 包对外提供的数据结构、方法。</li>
+</ul>
+<h2 id="layerrs"><a class="header" href="#layerrs">layer.rs</a></h2>
+<h3 id="floodsub-提供的方法"><a class="header" href="#floodsub-提供的方法"><code>Floodsub</code> 提供的方法</a></h3>
+<ul>
+<li>
+<p><code>pub fn new(local_peer_id: PeerId) -&gt; Floodsub</code></p>
+<p>使用默认配置创建一个 <code>Floodsub</code></p>
+</li>
+<li>
+<p><code>pub fn from_config(config: FloodsubConfig) -&gt; Floodsub</code></p>
+<p>使用指定配置创建一个 <code>Floodsub</code></p>
+</li>
+<li>
+<p><code>pub fn add_node_to_partial_view(&amp;mut self, peer_id: PeerId)</code></p>
+<p>将节点添加到消息传播节点链表中</p>
+</li>
+<li>
+<p><code>pub fn remove_node_from_partial_view(&amp;mut self, peer_id: &amp;PeerId)</code></p>
+<p>将节点从消息传播节点链表中移除</p>
+</li>
+<li>
+<p><code>pub fn subscribe(&amp;mut self, topic: Topic) -&gt; bool</code> ✨</p>
+<p>订阅该主题
+如果订阅有效返回 <code>true</code>，如果已经订阅了就返回 <code>false</code></p>
+</li>
+<li>
+<p><code>pub fn unsubscribe(&amp;mut self, topic: Topic) -&gt; bool</code></p>
+<p>取消订阅该主题 <br>
+<strong>注意：</strong> 只需要主题名称 <br>
+如果之前订阅了该主题就返回 <code>true</code></p>
+</li>
+<li>
+<p><code>pub fn publish( &amp;mut self, topic: impl Into&lt;Topic&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code> ✨</p>
+<p>只在订阅了该主题的情况下，将消息发布出去</p>
+</li>
+<li>
+<p><code>pub fn publish_any( &amp;mut self, topic: impl Into&lt;Topic&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code></p>
+<p>发布消息，即使没有订阅该主题</p>
+</li>
+<li>
+<p><code>pub fn publish_many( &amp;mut self, topic: impl IntoIterator&lt;Item = impl Into&lt;Topic&gt;&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code></p>
+<p>以多主题的方式发布消息 <br>
+<strong>注意：</strong> 如果没有订阅其中的任何主题，就不发布该消息</p>
+</li>
+<li>
+<p><code>pub fn publish_many_any( &amp;mut self, topic: impl IntoIterator&lt;Item = impl Into&lt;Topic&gt;&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code></p>
+<p>以多主题的方式发布消息，即使没有订阅其中的任何主题</p>
+</li>
+</ul>
+<h3 id="为-floodsub-实现-networkbehaviour"><a class="header" href="#为-floodsub-实现-networkbehaviour">为 <code>Floodsub</code> 实现 <code>NetworkBehaviour</code></a></h3>
+<p>重点是在 <code>inject_event</code> 实现了事件处理和最后的消息的分发，即 <code>Flood</code>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="async-异步编程"><a class="header" href="#async-异步编程">async 异步编程</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="异步编程的演进"><a class="header" href="#异步编程的演进">异步编程的演进</a></h1>
+<h2 id="1-单片机裸机程序无操作系统无多线程调度"><a class="header" href="#1-单片机裸机程序无操作系统无多线程调度">1. 单片机裸机程序（无操作系统、无多线程、调度）</a></h2>
+<p>只能有一个工作流。所以全部都是非阻塞函数，通过轮询的方式执行。这种最简单的嵌入式设备的程序，工作内容明确，业务逻辑简单，只需设计好执行流程，都可以解决。</p>
+<pre><code class="language-c">while (1) {
+    func1();
+    task1();
+    func2();
+    task2();
+    ...
+}
+</code></pre>
+<p>简单、高效、易于调试，唯一的缺点就是业务逻辑的复杂度上限取决于函数和执行流的设计。</p>
+<h2 id="2-有了不确定的ioui交互"><a class="header" href="#2-有了不确定的ioui交互">2. 有了不确定的I/O、UI交互</a></h2>
+<p>增加了串口接收、解析、应答报文；按键响应、屏幕刷新。这时最简单粗暴的方式是使用中断，前后台的程序框架，而且串口的任务放在串口中断里，屏幕刷新放在定时器中断里，按钮任务放在引脚的外部中断。</p>
+<p>这种方式除了简单，其他都是缺点。如代码逻辑分散（不是高内聚低耦合）；中断内停留时间过长；大量的全局变量、频繁的数据竞争等等。</p>
+<p>稍好一些，也是主流的做法是在中断内置标志位，前台程序中轮询标志位，根据标志位执行任务。此时其实已经有异步编程的意思了。</p>
+<h2 id="3-有了操作系统多任务多线程"><a class="header" href="#3-有了操作系统多任务多线程">3. 有了操作系统（多任务、多线程）</a></h2>
+<p>支持多个工作流。这时的设计空间就很大了，有一种方式就是回调函数：既然当前无法获取资源、也不知道何时可以获取到，那就指定一个有资源时该干的事，然后执行开一个工作流的单独等待、执行。如各类 UI 框架的事件回调函数，最明显的就是按钮点击函数，优点是代码书写自然，符合设计直觉。但有一类情况，如：</p>
+<p>JS的xhr请求处理：</p>
+<pre><code class="language-javascript">var xhr = new XMLHttpRequest();
+xhr.onreadystatechange = function() {
+    if (xhr.readyState == 4 &amp;&amp; xhr.status == 200) {
+        document.getElementById(&quot;myDiv&quot;).innerHTML = xhr.responseText;
+    }
+}
+</code></pre>
+<p>Qt 的 QModbus 客户端请求：</p>
+<pre><code class="language-c++">bool MyModbus::ReadCoils()
+{
+    QModbusDataUnit read_unit(QModbusDataUnit::Coils, start_add, numbers);
+    if (auto *reply = my_client-&gt;sendReadRequest(read_unit, server_id)) {
+        if (!reply-&gt;isFinished()) {
+            connect(reply, QModbusReply::finished, this, &amp;MyModbus::ReadReadyCoils);
+            return true;
+        } else {
+            delete reply;
+            return false;
+        }
+    }
+
+    return false;
+}
+
+void MyModbus::ReadReadyCoils()
+{
+    // ...
+}
+</code></pre>
+<p>这类 I/O 事件除了有本次的确定性，还有多个事件执行顺序的确定性。如果有多个请求，且后面的请求依赖前一次的请求结果，那就需要将后面的代码写在前一次的回调函数内，就此，形成著名的回调地狱（Callback Hell）问题。</p>
+<h2 id="4-async-编程"><a class="header" href="#4-async-编程">4. async 编程</a></h2>
+<p>async 是 Rust 选择的异步编程模型。这种模型在异步执行的本质下，有同步代码的书写逻辑。</p>
+<p>先思考一个问题，在没有 async 之前，如果要解决回调地狱，你会怎么做？</p>
+<p>一种做法是编写一个函数，定时轮询前次的结果，如：</p>
+<pre><code class="language-c">void sync(void *result) {
+    while (!is_done(result)) {
+        mdelay(10);
+    }
+}
+</code></pre>
+<p>将这样的函数嵌在异步任务之间，或者将回调函数定位轮询的结束条件，如 Qt 中：</p>
+<pre><code class="language-c++">if (!reply-&gt;isFinished()) {
+    QEventLoop loop;
+    connect(reply, &amp;QModbusReply::finished, &amp;loop, &amp;QEventLoop::quit);
+    loop.exec();
+}
+</code></pre>
+<p>另一种做法是编写一个内部创建互斥量的函数，将互斥量传递给异步任务，由异步任务完成后释放互斥量，在函数在返回前等待互斥量，形如：</p>
+<pre><code class="language-c">typedef void(*sync_func_t)(mutex_t*);
+
+void sync(sync_func_t func) {
+    mutex_t *mutex = mutex_new();
+    func(mutex);
+    mutex_take(mutex);
+}
+</code></pre>
+<p>这是 C 语言的形式，如果用 C++ 或其他带对面的语言，可以使用链式调用的形式写出更优雅的代码，如将互斥量返回：</p>
+<pre><code class="language-c">typedef void(*async_func_t)(mutex_t*);
+
+mutex_t* async(async_func_t func) {
+    mutex_t *mutex = mutex_new();
+    func(mutex);
+    mutex_take(mutex);
+    return mutex;
+}
+
+void foo(void) {
+    async(func1).take_delete();
+}
+</code></pre>
+<p>这个就是 async 编程的基本模型，对我来讲是一种很自然的演进方式。编译器专家在从编译器层面支持了 async、await 语法。async 的底层不会这么简单，是有着一套复杂的设计，而且每种语言都有自己的独特实现，JS 和 Rust 就是完全不同的两种实现方式。</p>
+<p>以上方法的本质其实是：当前线程主动让出 CPU。以阻塞任务或耗时任务，单独运行在一个线程中，以阻塞当前线程的方式，让其它任务执行，一次实现并发。但线程是很重的，线程间切换、上下文切换是一个繁重的开销，数量少时没感觉，但如 web 服务器这样的场景，少则成百上千，多则百万上亿，哪怕线程池也难以处理。所以又多了一个协程的概念，一个线程可以有多个协程，Rust 的 async .await 底层就是协程支持的。 </p>
+<h3 id="async-和多线程的性能对比"><a class="header" href="#async-和多线程的性能对比">async 和多线程的性能对比</a></h3>
+<div class="table-wrapper"><table><thead><tr><th>操作</th><th>async</th><th>线程</th></tr></thead><tbody>
+<tr><td>创建</td><td>0.3 微秒</td><td>17 微秒</td></tr>
+<tr><td>切换</td><td>0.2 微秒</td><td>1.7 微秒</td></tr>
+</tbody></table>
+</div><div style="break-before: page; page-break-before: always;"></div><h1 id="demo-1"><a class="header" href="#demo-1">Demo 1</a></h1>
+<h2 id="future-async-await"><a class="header" href="#future-async-await"><code>Future</code> 、<code>async</code> 、<code>await</code></a></h2>
+<pre><pre class="playground"><code class="language-rust">// main.c
+
+use futures::executor::block_on;
+// use async_std::task::{sleep};
+// use std::time::Duration;
+
+struct Buff {
+    data: Vec&lt;u8&gt;,
+}
+
+async fn rx_socket() -&gt; Buff {
+    // sleep(Duration::from_secs(2)).await;
+    Buff {
+        data: vec![1, 2, 3, 4],
+    }
+}
+
+async fn rx_log(buff: Buff) {
+    println!(&quot;socket 接收：{:?}&quot;, buff.data);
+}
+
+async fn socket_log() {
+    let buff = rx_socket().await;
+    rx_log(buff).await;
+}
+
+async fn tx_serial() {
+    let buf = Buff {
+        data: vec![11, 22, 33, 44],
+    };
+    println!(&quot;serial 发送：{:?}&quot;, buf.data);
+}
+
+async fn async_main() {
+    let f1 = socket_log();
+    let f2 = tx_serial();
+
+    futures::join!(f1, f2);
+}
+
+fn main() {
+    block_on(async_main());
+}
+
+</code></pre></pre>
+<h2 id="future"><a class="header" href="#future">Future</a></h2>
+<p>可以理解为 <strong>将来的结果</strong>，在不确定的某个时刻会产生一个期望的结果。每一个 async 都会返回 <code>Future</code>，原型为：</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Future {
+    type Output;
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>核心方法 <code>poll</code> 可以获取期望结果。如果当前没有结果，也不会阻塞在这里，而是通过后续的轮询，当有结果了，再唤醒当前任务。传递给 <code>poll</code> 方法的 <code>context</code> 可以提供 <code>Waker</code>，它是唤醒当前任务的句柄。</p>
+<p>当使用 future 时，通常不会直接调用 poll，而是 .await 该值。</p>
+<h2 id="waker"><a class="header" href="#waker">Waker</a></h2>
+<p>可以理解为一个信号量，实际是一个特定的唤醒行为，当 <code>future</code> 有结果了，通知 <code>poll</code> 唤醒当前任务。原型为：</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[repr(transparent)]
+pub struct Waker { /* fields omitted */ }
+<span class="boring">}
+</span></code></pre></pre>
+<p><code>Waker</code> 是通过通知执行者准备运行来唤醒任务的句柄。</p>
+<p>该句柄封装了 <code>RawWaker</code> 实例，该实例定义了特定于执行者的唤醒行为。</p>
+<p>实现 <code>Clone</code>，<code>Send</code> 和 <code>Sync</code>。</p>
+<h2 id="executor"><a class="header" href="#executor">Executor</a></h2>
+<p>Rust 的 <code>Future</code> 是惰性的，创建后并不会自动执行，而是需要显式的驱动它执行。<code>async</code> 函数内可以使用 <code>.await</code> 来驱动其中的 <code>Future</code>，而最外面的 <code>async</code> 函数，就需要一个执行器来驱动。</p>
+<p>在这里 <code>futures::executor::block_on</code> 就是执行器。</p>
+<p>执行器会管理一批 <code>Future</code> (最外层的 <code>async</code> 函数)，然后通过不停地 <code>poll</code> 推动它们直到完成。最开始，执行器会先 <code>poll</code> 一次 Future ，后面就不会主动去 <code>poll</code> 了，而是等待 <code>Future</code> 通过调用 wake 函数来通知它可以继续，它才会继续去 <code>poll</code> 。这种wake 通知然后 <code>poll</code>的方式会不断重复，直到 <code>Future</code> 完成。</p>
+<h2 id="join"><a class="header" href="#join">join!</a></h2>
+<p>表示并发地处理多个 <code>Future</code>，若其中一个阻塞，则执行其它的，当全部阻塞时，当前函数会阻塞，让将线程的所有权让给执行器所在的函数（线程）。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-2"><a class="header" href="#demo-2">Demo 2</a></h1>
+<h2 id="join-select"><a class="header" href="#join-select"><code>join!</code> 、<code>select!</code></a></h2>
+<h3 id="join-1"><a class="header" href="#join-1"><code>join!</code></a></h3>
+<p>Demo1 中提到要多个 <code>Future</code> 并发执行，可以使用 <code>join!</code>，感受一下这两段程序的区别：</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn enjoy_book() {}
+async fn enjoy_music() {}
+
+async fn enjoy_book_then_music() -&gt; (Book, Music) {
+    let book = enjoy_book().await;
+    let music = enjoy_music().await;
+    (book, music)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>async fn enjoy_book() {}
+async fn enjoy_music() {}
+
+async fn enjoy_book_and_music() -&gt; (Book, Music) {
+    let book = enjoy_book();
+    let music = enjoy_music();
+    join!(book, music)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>前者使用 <code>.await</code> 驱动 <code>Future</code>， <code>Future</code>时惰性的，驱动时才会执行，且需要全程驱动，所以后续 <code>Future</code> 只有在前一个完成的情况才会的到机会执行。<em>这种写法适合多个目标任务需要顺序运行，但不能阻塞其它任务的场景。如根据当前请求结果，发起下一次请求。</em></p>
+<p>后者使用 <code>join!</code> 同时驱动多个 <code>Future</code>，本质上还是在同一个线程内，所以更准确的描述时分时驱动，即并行。当所有 <code>Future</code> 都完成后，<code>join!</code> 退出。<em>这种写法适合执行多个互不相关目标任务的场景。如一次发起多个请求以获取多个文件。</em></p>
+<p>以上都是基于多个 <code>Future</code> 都成功完成的假设。那如果其中一个发生错误了呢？</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">use futures::{
+</span><span class="boring">   future::TryFutureExt,
+</span><span class="boring">   try_join,
+</span><span class="boring">   executor::block_on
+</span><span class="boring">};
+</span><span class="boring">
+</span><span class="boring">struct Book {
+</span><span class="boring">   book: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span><span class="boring">struct Music {
+</span><span class="boring">   music: String,
+</span><span class="boring">}
+</span><span class="boring">
+</span>async fn get_book() -&gt; Result&lt;Book, String&gt; {
+    Ok(Book{book: &quot;book&quot;.into()})
+}
+async fn get_music()-&gt; Result&lt;Music, String&gt; {
+    // Ok(Music{music: &quot;music&quot;.into()})
+    Err(&quot;music err&quot;.to_string())
+}
+
+async fn get_book_and_music() -&gt; Result&lt;(Book, Music), String&gt; {
+    let book = get_book().map_err(|e| e);
+    let music = get_music().map_err(|e| e);
+    try_join!(book, music)
+}
+
+<span class="boring">fn main() {
+</span><span class="boring">   match block_on(get_book_and_music()) {
+</span><span class="boring">       Ok((b, m)) =&gt; println!(&quot;{} {}&quot;, b.book, m.music),
+</span><span class="boring">       Err(e) =&gt; println!(&quot;{}&quot;, e),
+</span><span class="boring">   }
+</span><span class="boring">}
+</span></code></pre></pre>
+<p>可以使用 <code>try_join!</code> 来在发生错误时终止该段程序（并获取错误）。</p>
+<p>HTTP 客户端向服务器请求资源就涵盖了上述三种场景。</p>
+<h3 id="select"><a class="header" href="#select"><code>select!</code></a></h3>
+<p>同样是同时执行多个 <code>Future</code>，感受一下下面的程序：</p>
+<pre><pre class="playground"><code class="language-rust"><span class="boring">use futures::{
+</span><span class="boring">   future::FutureExt, // for `.fuse()`
+</span><span class="boring">   pin_mut,
+</span><span class="boring">   select,
+</span><span class="boring">   executor::block_on
+</span><span class="boring">};
+</span><span class="boring">
+</span>async fn task_one() -&gt; String {
+    &quot;task one completed first&quot;.into()
+}
+
+async fn task_two() -&gt; String {
+    &quot;task two completed first&quot;.into()
+}
+
+async fn race_tasks() {
+    let t1 = task_one().fuse();
+    let t2 = task_two().fuse();
+
+    pin_mut!(t1, t2);
+
+    select! {
+        msg = t1 =&gt; println!(&quot;{}&quot;, msg),
+        msg = t2 =&gt; println!(&quot;{}&quot;, msg),
+    }
+}
+<span class="boring">
+</span><span class="boring">fn main() {
+</span><span class="boring">   block_on(race_tasks());
+</span><span class="boring">}
+</span></code></pre></pre>
+<p><code>select!</code> 在任何一个 <code>Future</code> 完成时就退出，这与 C 语言中的 <code>select()</code> 函数意思相近。<em>这种写法适合在同时执行多个目标任务，有完成的就立即处理的场景。</em></p>
+<p>通过 <code>loop{}</code> 可以达到 <code>join!</code> 相同的作用，完成所有 <code>Future</code>。</p>
+<p><code>fuse</code> 是保险丝的意思，可以理解为 <strong>熔断</strong>，即 <code>select!</code> 中已经完成的 <code>Future</code> 在后续的 <code>poll</code> 中都不会执行了。</p>
+<p><code>select!</code> 获取的是 <code>Future</code> 的可变引用，以保证未完成的 <code>Future</code> 在 <code>select!</code> 外仍有被驱动的能力，完成后仍可以得到响应。所以必须添加 <code>pin_mut!</code>。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="demo-3"><a class="header" href="#demo-3">Demo 3</a></h1>
+<h2 id="pin--unpin"><a class="header" href="#pin--unpin"><code>Pin</code> 、 <code>UnPin</code></a></h2>
+<p>自引用类型：</p>
+<pre><pre class="playground"><code class="language-rust">struct Test {
+    a: String,
+    b: *const String,
+}
+
+impl Test {
+    fn new(txt: &amp;str) -&gt; Self {
+        Test {
+            a: String::from(txt),
+            b: std::ptr::null(),
+        }
+    }
+
+    fn init(&amp;mut self) {
+        let self_ref: *const String = &amp;self.a;
+        self.b = self_ref;
+    }
+
+    fn a(&amp;self) -&gt; &amp;str {
+        &amp;self.a
+    }
+
+    fn b(&amp;self) -&gt; &amp;String {
+        assert!(!self.b.is_null(), &quot;Call Test::init first&quot;);
+        unsafe { &amp;*(self.b)}
+    }
+}
+
+fn main() {
+    let mut test1 = Test::new(&quot;test1&quot;);
+    let mut test2 = Test::new(&quot;test2&quot;);
+    test1.init();
+    test2.init();
+
+    println!(&quot;a: {}, b: {}&quot;, test1.a(), test1.b());
+    std::mem::swap(&amp;mut test1, &amp;mut test2);
+    println!(&quot;a: {}, b: {}&quot;, test2.a(), test2.b());
+
+    //
+    //      0x11
+    //      ---------   ---------
+    //      | test1 |   | 0x11  |
+    //      ---------   ---------
+    //      0x22
+    //      ---------   ---------
+    //      | test2 |   | 0x22  |
+    //      ---------   ---------
+    // swap:
+    //      0x11
+    //      ---------   ---------
+    //      | test2 |   | 0x22  |
+    //      ---------   ---------
+    //      0x22
+    //      ---------   ---------
+    //      | test1 |   | 0x11  |
+    //      ---------   ---------
+    //
+}
+
+</code></pre></pre>
+<p>Rust 中大部分类型有默认实现了 <code>UnPin</code>，这是一个 trait，表示该类型的值是可以移动的（move）。</p>
+<p>实现了 <code>!Unpined</code> 的类型，表示 <strong>没有实现 <code>UnPin</code></strong>，不是固定、无法移动的意思（负负得正），而是表示 <strong>可以固定</strong>，需要显式的通过 <code>Pin</code> 将其固定，无法移动。</p>
+<pre><pre class="playground"><code class="language-rust">use std::pin::Pin;
+use std::marker::PhantomPinned;
+
+struct Test {
+    a: String,
+    p2a: *const String,
+    _marker: PhantomPinned,
+}
+
+impl Test {
+    fn new(txt: &amp;str) -&gt; Self {
+        Test {
+            a: String::from(txt),
+            b: std::ptr::null(),
+            _marker: PhantomPinned,
+        }
+    }
+
+    fn init(self: Pin&lt;&amp;mut Self&gt;) {
+        let self_ptr: *const String = &amp;self.a;
+        let this = unsafe {self.get_unchecked_mut()};
+        this.b = self_ptr;
+    }
+
+    fn a(self: Pin&lt;&amp;Self&gt;) -&gt; &amp;str {
+        &amp;self.get_ref().a
+    }
+
+    fn b(self: Pin&lt;&amp;Self&gt;) -&gt; &amp;String {
+        assert!(!self.b.is_null(), &quot;Call Test::init first&quot;);
+        unsafe { &amp;*(self.b)}
+    }
+}
+
+fn main() {
+    let mut test1 = Test::new(&quot;test1&quot;);
+    let mut test1 = unsafe { Pin::new_unchecked(&amp;mut test1)};
+    Test::init(test1.as_mut());
+
+    let mut test2 = Test::new(&quot;test2&quot;);
+    let mut test2 = unsafe { Pin::new_unchecked(&amp;mut test2)};
+    Test::init(test2.as_mut());
+
+    println!(&quot;a: {}, b: {}&quot;, Test::a(test1.as_ref()), Test::b(test1.as_ref()));
+    std::mem::swap(&amp;mut test1, &amp;mut test2);
+    println!(&quot;a: {}, b: {}&quot;, Test::a(test2.as_ref()), Test::b(test2.as_ref()));
+}
+</code></pre></pre>
+<p><code>Future</code> 通过 <code>poll</code> <code>.await</code> 被执行时，是在另外一个状态机里运行，如果期间有引用的数据，当数据源被移动（或销毁），就会造成类似悬垂引用的内存错误，所以数据源一定要被 <code>Pin</code> 住。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-工程-1"><a class="header" href="#rust-工程-1">Rust 工程</a></h1>
+<p>Rust 另一个特色是其完备的构建系统，即 <code>Cargo</code> 工具，构建可以拆分开理解：结构、建立。</p>
+<p><strong>结构</strong> 就是工程目录结构；</p>
+<p><strong>建立</strong> 就是通过属性，赋予代码段编译时的选项；</p>
+<p>当然最为一个软件工程，测试系统、文档系统也是必不可少的，这些都包含在 Rust 的构建系统，且各个都功能强大。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="rust-工程结构"><a class="header" href="#rust-工程结构">Rust 工程结构</a></h1>
+<p>对于一个</p>
+<p>常见的三种工程目录结构：</p>
+<ol>
+<li><code>cargo new</code> 原始工程</li>
+</ol>
+<pre><code>.
+├── .gitignore
+├── .git
+│   └── ...
+├── Cargo.toml
+└── src
+    └── lib.rs/main.rs
+</code></pre>
+<p>适用于简单工程，通常是一些临时工程，用来快速验证某种想法，如临时写个demo、tool。</p>
+<p>常用命令：<code>cargo run</code>、<code>cargo build</code></p>
+<ol start="2">
+<li>单个工程的完整目录</li>
+</ol>
+<pre><code>.
+├── .gitignore
+├── .git
+│   └── ...
+├── Cargo.toml
+├── src
+│   ├── lib.rs/main.rs
+│   └── bin
+│       ├── named-executable.rs
+│       ├── another-executable.rs
+│       └── multi-file-executable
+│           ├── main.rs
+│           └── some_module.rs
+├── benches
+│   ├── large-input.rs
+│   └── multi-file-bench
+│       ├── main.rs
+│       └── bench_module.rs
+├── examples
+│   ├── simple.rs
+│   └── multi-file-example
+│       ├── main.rs
+│       └── ex_module.rs
+└── tests
+    ├── some-integration-tests.rs
+    └── multi-file-test
+        ├── main.rs
+        └── test_module.rs
+</code></pre>
+<p>这是一个典型的 crate 结构，一个完整的项目应具备上述所有内容，对性能不敏感的项目可能会没有 <code>benches</code>。</p>
+<ol start="3">
+<li>工作空间
+即 <code>workspace</code>，将多个工程组成一个工作空间</li>
+</ol>
+<pre><code>.
+├── .gitignore
+├── .git
+│   └── ...
+├── Cargo.toml
+│── src
+│   └── lib.rs/main.rs
+├── proj1
+│   ├── Cargo.toml
+│   └── src
+│       └── lib.rs/main.rs
+├── proj2
+│   ├── Cargo.toml
+│   └── src
+│       └── lib.rs/main.rs
+└── proj3
+    ├── Cargo.toml
+    └── src
+        └── lib.rs/main.rs
+</code></pre>
+<p>根目录下的 <code>Cargo.toml</code> 一定会有 <code>[workspace]</code> 选项，用来显式的描述该工作空间内的成员工程：</p>
+<pre><code class="language-toml">[workspace]
+members = [
+    &quot;core&quot;,
+    &quot;misc/metrics&quot;,
+    &quot;misc/multistream-select&quot;,
+    &quot;misc/rw-stream-sink&quot;,
+]
+</code></pre>
+<p>当遇到更大项目，大到其中的某个功能都可以拿出来单独作为一个 crate 进行开发、维护时，就可以使用这种结构。</p>
+<p>libp2p 就是这样产生的，本身时 <code>ipfs</code> 的功能组件，后来被提出来的单独开发，rust 实现版本 <code>rust-libp2p</code> 就是这种目录结构。而因为 libp2p 又有功能值的单独开发，<code>rust-libp2p</code> 中就将这类功能作为 <code>member</code>,如 <code>swarm</code> 等。</p>
+<p>还有一种情况适用与这种结构：组件工程不在一个目录中，用 workspace 的形式讲他们组合起来，可以指定绝对路径。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="属性"><a class="header" href="#属性">属性</a></h1>
+<p>Rust 程序中的任何特性项都可以用 <code>属性(attribute)</code> 来修饰。属性是 Rust 中写给编译器看的各种指令和建议的普适语法。</p>
+<p>出现的形式是在文件的最开始文件，在变量、函数、方法、结构体等各种代码的上方：</p>
+<pre><code>#[...]
+</code></pre>
+<p>可以简单的理解就是<strong>开启功能</strong>。</p>
+<h2 id="常见属性举例"><a class="header" href="#常见属性举例">常见属性举例</a></h2>
+<ul>
+<li>
+<p>#[allow]</p>
+<p>允许某些行为通过编译器的检查，如：</p>
+<p><code>#[allow(non_camel_case_types)]</code>，允许非驼峰形式的命名方式；<br>
+<code>#allow[unused_xxx]</code>，允许未使用的某些东西；<br>
+<code>#allow[dead_code]</code>，允许未使用的代码；<br></p>
+</li>
+<li>
+<p>#[cfg]</p>
+<p>添加条件编译的内容，例举一些最常用的部分：</p>
+</li>
+</ul>
+<div class="table-wrapper"><table><thead><tr><th>#[cfg(...)] 选项</th><th>何时启用</th></tr></thead><tbody>
+<tr><td>test</td><td>启用测试，方式可以是 cargo test 或 rustc --test</td></tr>
+<tr><td>debug_assertions</td><td>启用调试断言</td></tr>
+<tr><td>unix</td><td>为 Unix 编译（包括 macOS）</td></tr>
+<tr><td>windows</td><td>为 Windows 编译</td></tr>
+<tr><td>target_pointer_width = &quot;64&quot;</td><td>为 64 位平台编译，还可以是：32</td></tr>
+<tr><td>target_arch = &quot;x86_64&quot;</td><td>为 x86_64 架构编译。<br> 其它值还有：x86、arm、aarch64 ……</td></tr>
+<tr><td>target_os = &quot;macos&quot;</td><td>为 macos 编译。<br> 其它值还有：windows、ios、android ……</td></tr>
+<tr><td>feature = &quot;robots&quot;</td><td>开启了 robots 特性，方式可以是cargo build --feature robots <br> 或 cargo build --cfg feature='&quot;robots&quot;' <br> 或在 Cargo.toml 的 [features] 下申明</td></tr>
+<tr><td>(A) not(A)</td><td>成对出现，提供一个函数的两种实现，分别对应满足 A 和不满足 A 的情况</td></tr>
+<tr><td>all(A, B)</td><td>A 和 B 都满足时（&amp;&amp;）</td></tr>
+<tr><td>any(A, B)</td><td>A 或 B 满足时（</td></tr>
+</tbody></table>
+</div><br>
+<ul>
+<li>
+<p>#[inline]</p>
+<p>#[inline(always)]、#[inline(never)]</p>
+</li>
+<li>
+<p>#[feature(xxx)]</p>
+<p>开启某些特性。</p>
+</li>
+<li>
+<p>#[derive]
+使用 <code>derive</code> 属性的属性，会有编译器生成对应 trait 的默认实现代码。</p>
+<p>需要先写过程宏。</p>
+<p>标准库中的可派生 trait：<code>Debug</code>、<code>PartialEq</code>、<code>Eq</code>、<code>PartialOrd</code>、<code>Ord</code>、<code>Clone</code>、<code>Copy</code>、<code>Hash</code>、<code>Default</code></p>
+</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="测试"><a class="header" href="#测试">测试</a></h1>
+<ul>
+<li>单元测试</li>
+<li>集成测试</li>
+<li>文档测试</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-3"><a class="header" href="#lesson-3">Lesson 3</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-5"><a class="header" href="#lesson-5">Lesson 5</a></h1>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-8"><a class="header" href="#lesson-8">Lesson 8</a></h1>
 
                     </main>
 

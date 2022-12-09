@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Lesson 2 - 动手学 rust-libp2p</title>
+        <title>Floodsub 代码导读 - 动手学 rust-libp2p</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html" class="active"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html" class="active"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,40 +145,90 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="lesson-2"><a class="header" href="#lesson-2">Lesson 2</a></h1>
-<h2 id="floodsub-导读"><a class="header" href="#floodsub-导读"><code>Floodsub</code> 导读</a></h2>
+                        <h1 id="floodsub-代码导读"><a class="header" href="#floodsub-代码导读">Floodsub 代码导读</a></h1>
+<p>普遍的中文名称是：洪泛订阅。基于 发布-订阅 模式的一种通讯协议。物联网人熟知的 <code>MQTT</code> 也是这种模式。早期的报纸订阅、现在的各类 APP 中关注作者、账号、频道，等等，都是这种模式的真实写照。</p>
+<p>这种模式可以有效隔离发送者和接收的联系，让各方只包含自己该处理的内容，以达到从设计上的代码解耦效果。</p>
+<pre><code>protocols/floodsub/
+├── build.rs            // 主要用来编译 Protocol Buffers
+├── Cargo.toml
+├── CHANGELOG.md
+└── src
+    ├── layer.rs        // behaviour layer 行为（描述）层
+    ├── lib.rs          // 对外接口描述
+    ├── protocol.rs     // 协议的数据类型
+    ├── rpc.proto       // Protocol Buffers 格式描述文件
+    └── topic.rs        // 主题模块
+
+1 directory, 8 files
+</code></pre>
+<h2 id="其它文件浏览"><a class="header" href="#其它文件浏览">其它文件浏览</a></h2>
+<p><code>Floodsub</code> 基本逻辑就是<strong>订阅消息</strong>、<strong>发送消息</strong>与<strong>传递消息</strong>。每一个节点在收到消息后，都会对连接的全部节点进行发送消息，“一传十，十传百”，真的就是字面上的意思，所以会造成大量的重复发送，是一种以带宽换取传播速度的方式，适合小型网络。</p>
 <ul>
-<li>公共方法</li>
-<li><code>Flood</code> 的实现</li>
+<li><code>topic.rs</code>：定义了主题的数据结构，为其添加 <code>From&lt;Topic&gt;</code> trait，以此实现主题的创建；</li>
+<li><code>protocol.rs</code>: 协议传输相关内容，定义了协议和消息的数据结构，实现了协议的升级 trait，消息的解析、打包 trait；</li>
+<li><code>rpc.proto</code>:消息内容的 protobuf 描述文件，会经过 <code>build.rs</code> 里定义的行为，在编译初期转换为 rust 代码；</li>
+<li><code>lib.rs</code>: <code>Floodsub</code> 包对外提供的数据结构、方法。</li>
 </ul>
-<h2 id="异步编程介绍"><a class="header" href="#异步编程介绍">异步编程介绍</a></h2>
+<h2 id="layerrs"><a class="header" href="#layerrs">layer.rs</a></h2>
+<h3 id="floodsub-提供的方法"><a class="header" href="#floodsub-提供的方法"><code>Floodsub</code> 提供的方法</a></h3>
 <ul>
-<li>异步编程的演进</li>
-<li>通过例子深入体会异步编程</li>
-</ul>
-<h2 id="rust-工程"><a class="header" href="#rust-工程">Rust 工程</a></h2>
-<ul>
-<li>常用目录结构举例</li>
-<li>测试、属性</li>
-</ul>
-<h2 id="实践作业"><a class="header" href="#实践作业">实践作业</a></h2>
-<ol>
 <li>
-<p>为 <code>chat</code> 用例添加测试</p>
-<p>tips：测例内容不是重点，实现尽可能多的测例形式</p>
+<p><code>pub fn new(local_peer_id: PeerId) -&gt; Floodsub</code></p>
+<p>使用默认配置创建一个 <code>Floodsub</code></p>
 </li>
 <li>
-<p>以 <code>@user messages</code> 的形式实现私聊</p>
-<p>tips：可以分别从 <strong>发送</strong> 和 <strong>接收显示</strong> 两个方面考虑，并实现</p>
+<p><code>pub fn from_config(config: FloodsubConfig) -&gt; Floodsub</code></p>
+<p>使用指定配置创建一个 <code>Floodsub</code></p>
 </li>
-</ol>
+<li>
+<p><code>pub fn add_node_to_partial_view(&amp;mut self, peer_id: PeerId)</code></p>
+<p>将节点添加到消息传播节点链表中</p>
+</li>
+<li>
+<p><code>pub fn remove_node_from_partial_view(&amp;mut self, peer_id: &amp;PeerId)</code></p>
+<p>将节点从消息传播节点链表中移除</p>
+</li>
+<li>
+<p><code>pub fn subscribe(&amp;mut self, topic: Topic) -&gt; bool</code> ✨</p>
+<p>订阅该主题
+如果订阅有效返回 <code>true</code>，如果已经订阅了就返回 <code>false</code></p>
+</li>
+<li>
+<p><code>pub fn unsubscribe(&amp;mut self, topic: Topic) -&gt; bool</code></p>
+<p>取消订阅该主题 <br>
+<strong>注意：</strong> 只需要主题名称 <br>
+如果之前订阅了该主题就返回 <code>true</code></p>
+</li>
+<li>
+<p><code>pub fn publish( &amp;mut self, topic: impl Into&lt;Topic&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code> ✨</p>
+<p>只在订阅了该主题的情况下，将消息发布出去</p>
+</li>
+<li>
+<p><code>pub fn publish_any( &amp;mut self, topic: impl Into&lt;Topic&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code></p>
+<p>发布消息，即使没有订阅该主题</p>
+</li>
+<li>
+<p><code>pub fn publish_many( &amp;mut self, topic: impl IntoIterator&lt;Item = impl Into&lt;Topic&gt;&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code></p>
+<p>以多主题的方式发布消息 <br>
+<strong>注意：</strong> 如果没有订阅其中的任何主题，就不发布该消息</p>
+</li>
+<li>
+<p><code>pub fn publish_many_any( &amp;mut self, topic: impl IntoIterator&lt;Item = impl Into&lt;Topic&gt;&gt;, data: impl Into&lt;Vec&lt;u8, Global&gt;&gt;)</code></p>
+<p>以多主题的方式发布消息，即使没有订阅其中的任何主题</p>
+</li>
+</ul>
+<h3 id="为-floodsub-实现-networkbehaviour"><a class="header" href="#为-floodsub-实现-networkbehaviour">为 <code>Floodsub</code> 实现 <code>NetworkBehaviour</code></a></h3>
+<p>重点是在 <code>inject_event</code> 实现了事件处理和最后的消息的分发，即 <code>Flood</code>。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
+                            <a rel="prev" href="lesson2.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                                <i class="fa fa-angle-left"></i>
+                            </a>
 
-                            <a rel="next" href="floodsub_code.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="异步编程.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -188,8 +238,11 @@
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
+                    <a rel="prev" href="lesson2.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                        <i class="fa fa-angle-left"></i>
+                    </a>
 
-                    <a rel="next" href="floodsub_code.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="异步编程.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>
