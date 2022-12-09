@@ -1,0 +1,12 @@
+[book]
+authors = ["thy1037"]
+language = "en"
+multilingual = false
+src = "src"
+title = "动手学 rust-libp2p"
+
+[build]
+build-dir = "docs"
+
+[output.html]
+git-repository-url = "https://github.com/thy1037/libp2p-course"
