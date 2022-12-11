@@ -150,29 +150,29 @@
 <p>自引用类型：</p>
 <pre><pre class="playground"><code class="language-rust edition2021">struct Test {
     a: String,
-    b: *const String,
+    p2a: *const String,
 }
 
 impl Test {
     fn new(txt: &amp;str) -&gt; Self {
         Test {
             a: String::from(txt),
-            b: std::ptr::null(),
+            p2a: std::ptr::null(),
         }
     }
 
     fn init(&amp;mut self) {
         let self_ref: *const String = &amp;self.a;
-        self.b = self_ref;
+        self.p2a = self_ref;
     }
 
     fn a(&amp;self) -&gt; &amp;str {
         &amp;self.a
     }
 
-    fn b(&amp;self) -&gt; &amp;String {
-        assert!(!self.b.is_null(), &quot;Call Test::init first&quot;);
-        unsafe { &amp;*(self.b)}
+    fn p2a(&amp;self) -&gt; &amp;String {
+        assert!(!self.p2a.is_null(), &quot;Call Test::init first&quot;);
+        unsafe { &amp;*(self.p2a)}
     }
 }
 
@@ -182,9 +182,9 @@ fn main() {
     test1.init();
     test2.init();
 
-    println!(&quot;a: {}, b: {}&quot;, test1.a(), test1.b());
+    println!(&quot;a: {}, p2a: {}&quot;, test1.a(), test1.p2a());
     std::mem::swap(&amp;mut test1, &amp;mut test2);
-    println!(&quot;a: {}, b: {}&quot;, test2.a(), test2.b());
+    println!(&quot;a: {}, p2a: {}&quot;, test2.a(), test2.p2a());
 
     //
     //      0x11
@@ -223,7 +223,7 @@ impl Test {
     fn new(txt: &amp;str) -&gt; Self {
         Test {
             a: String::from(txt),
-            b: std::ptr::null(),
+            p2a: std::ptr::null(),
             _marker: PhantomPinned,
         }
     }
@@ -231,16 +231,16 @@ impl Test {
     fn init(self: Pin&lt;&amp;mut Self&gt;) {
         let self_ptr: *const String = &amp;self.a;
         let this = unsafe {self.get_unchecked_mut()};
-        this.b = self_ptr;
+        this.p2a = self_ptr;
     }
 
     fn a(self: Pin&lt;&amp;Self&gt;) -&gt; &amp;str {
         &amp;self.get_ref().a
     }
 
-    fn b(self: Pin&lt;&amp;Self&gt;) -&gt; &amp;String {
-        assert!(!self.b.is_null(), &quot;Call Test::init first&quot;);
-        unsafe { &amp;*(self.b)}
+    fn p2a(self: Pin&lt;&amp;Self&gt;) -&gt; &amp;String {
+        assert!(!self.p2a.is_null(), &quot;Call Test::init first&quot;);
+        unsafe { &amp;*(self.p2a)}
     }
 }
 
@@ -253,9 +253,9 @@ fn main() {
     let mut test2 = unsafe { Pin::new_unchecked(&amp;mut test2)};
     Test::init(test2.as_mut());
 
-    println!(&quot;a: {}, b: {}&quot;, Test::a(test1.as_ref()), Test::b(test1.as_ref()));
-    std::mem::swap(&amp;mut test1, &amp;mut test2);
-    println!(&quot;a: {}, b: {}&quot;, Test::a(test2.as_ref()), Test::b(test2.as_ref()));
+    println!(&quot;a: {}, p2a: {}&quot;, Test::a(test1.as_ref()), Test::p2a(test1.as_ref()));
+    std::mem::swap(test1.get_mut(), test2.get_mut());
+    println!(&quot;a: {}, p2a: {}&quot;, Test::a(test2.as_ref()), Test::p2a(test2.as_ref()));
 }
 </code></pre></pre>
 <p><code>Future</code> 通过 <code>poll</code> <code>.await</code> 被执行时，是在另外一个状态机里运行，如果期间有引用的数据，当数据源被移动（或销毁），就会造成类似悬垂引用的内存错误，所以数据源一定要被 <code>Pin</code> 住。</p>
@@ -289,6 +289,22 @@ fn main() {
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

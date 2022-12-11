@@ -146,8 +146,7 @@
                 <div id="content" class="content">
                     <main>
                         <h1 id="rust-工程结构"><a class="header" href="#rust-工程结构">Rust 工程结构</a></h1>
-<p>对于一个</p>
-<p>常见的三种工程目录结构：</p>
+<p>对于一个 Rust 工程常见的三种工程目录结构：</p>
 <ol>
 <li><code>cargo new</code> 原始工程</li>
 </ol>
@@ -260,6 +259,22 @@ members = [
 
         </div>
 
+        <!-- Livereload script (if served using the cli tool) -->
+        <script type="text/javascript">
+            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
+            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
+            const socket = new WebSocket(wsAddress);
+            socket.onmessage = function (event) {
+                if (event.data === "reload") {
+                    socket.close();
+                    location.reload();
+                }
+            };
+
+            window.onbeforeunload = function() {
+                socket.close();
+            }
+        </script>
 
 
 

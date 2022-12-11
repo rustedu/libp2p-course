@@ -5,29 +5,29 @@
 ```rust
 struct Test {
     a: String,
-    b: *const String,
+    p2a: *const String,
 }
 
 impl Test {
     fn new(txt: &str) -> Self {
         Test {
             a: String::from(txt),
-            b: std::ptr::null(),
+            p2a: std::ptr::null(),
         }
     }
 
     fn init(&mut self) {
         let self_ref: *const String = &self.a;
-        self.b = self_ref;
+        self.p2a = self_ref;
     }
 
     fn a(&self) -> &str {
         &self.a
     }
 
-    fn b(&self) -> &String {
-        assert!(!self.b.is_null(), "Call Test::init first");
-        unsafe { &*(self.b)}
+    fn p2a(&self) -> &String {
+        assert!(!self.p2a.is_null(), "Call Test::init first");
+        unsafe { &*(self.p2a)}
     }
 }
 
@@ -37,9 +37,9 @@ fn main() {
     test1.init();
     test2.init();
 
-    println!("a: {}, b: {}", test1.a(), test1.b());
+    println!("a: {}, p2a: {}", test1.a(), test1.p2a());
     std::mem::swap(&mut test1, &mut test2);
-    println!("a: {}, b: {}", test2.a(), test2.b());
+    println!("a: {}, p2a: {}", test2.a(), test2.p2a());
 
     //
     //      0x11
@@ -82,7 +82,7 @@ impl Test {
     fn new(txt: &str) -> Self {
         Test {
             a: String::from(txt),
-            b: std::ptr::null(),
+            p2a: std::ptr::null(),
             _marker: PhantomPinned,
         }
     }
@@ -90,16 +90,16 @@ impl Test {
     fn init(self: Pin<&mut Self>) {
         let self_ptr: *const String = &self.a;
         let this = unsafe {self.get_unchecked_mut()};
-        this.b = self_ptr;
+        this.p2a = self_ptr;
     }
 
     fn a(self: Pin<&Self>) -> &str {
         &self.get_ref().a
     }
 
-    fn b(self: Pin<&Self>) -> &String {
-        assert!(!self.b.is_null(), "Call Test::init first");
-        unsafe { &*(self.b)}
+    fn p2a(self: Pin<&Self>) -> &String {
+        assert!(!self.p2a.is_null(), "Call Test::init first");
+        unsafe { &*(self.p2a)}
     }
 }
 
@@ -112,9 +112,9 @@ fn main() {
     let mut test2 = unsafe { Pin::new_unchecked(&mut test2)};
     Test::init(test2.as_mut());
 
-    println!("a: {}, b: {}", Test::a(test1.as_ref()), Test::b(test1.as_ref()));
-    std::mem::swap(&mut test1, &mut test2);
-    println!("a: {}, b: {}", Test::a(test2.as_ref()), Test::b(test2.as_ref()));
+    println!("a: {}, p2a: {}", Test::a(test1.as_ref()), Test::p2a(test1.as_ref()));
+    std::mem::swap(test1.get_mut(), test2.get_mut());
+    println!("a: {}, p2a: {}", Test::a(test2.as_ref()), Test::p2a(test2.as_ref()));
 }
 ```
 
