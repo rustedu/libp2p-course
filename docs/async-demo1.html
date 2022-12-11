@@ -116,7 +116,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/thy1037/libp2p-course" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/rustedu/libp2p-slides" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -147,7 +147,7 @@
                     <main>
                         <h1 id="demo-1"><a class="header" href="#demo-1">Demo 1</a></h1>
 <h2 id="future-async-await"><a class="header" href="#future-async-await"><code>Future</code> 、<code>async</code> 、<code>await</code></a></h2>
-<pre><pre class="playground"><code class="language-rust">// main.c
+<pre><pre class="playground"><code class="language-rust edition2021">// main.c
 
 use futures::executor::block_on;
 // use async_std::task::{sleep};
@@ -194,7 +194,7 @@ fn main() {
 </code></pre></pre>
 <h2 id="future"><a class="header" href="#future">Future</a></h2>
 <p>可以理解为 <strong>将来的结果</strong>，在不确定的某个时刻会产生一个期望的结果。每一个 async 都会返回 <code>Future</code>，原型为：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Future {
     type Output;
@@ -206,7 +206,7 @@ fn main() {
 <p>当使用 future 时，通常不会直接调用 poll，而是 .await 该值。</p>
 <h2 id="waker"><a class="header" href="#waker">Waker</a></h2>
 <p>可以理解为一个信号量，实际是一个特定的唤醒行为，当 <code>future</code> 有结果了，通知 <code>poll</code> 唤醒当前任务。原型为：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[repr(transparent)]
 pub struct Waker { /* fields omitted */ }

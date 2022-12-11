@@ -117,7 +117,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/thy1037/libp2p-course" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/rustedu/libp2p-slides" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -346,7 +346,7 @@ void foo(void) {
 </tbody></table>
 </div><div style="break-before: page; page-break-before: always;"></div><h1 id="demo-1"><a class="header" href="#demo-1">Demo 1</a></h1>
 <h2 id="future-async-await"><a class="header" href="#future-async-await"><code>Future</code> 、<code>async</code> 、<code>await</code></a></h2>
-<pre><pre class="playground"><code class="language-rust">// main.c
+<pre><pre class="playground"><code class="language-rust edition2021">// main.c
 
 use futures::executor::block_on;
 // use async_std::task::{sleep};
@@ -393,7 +393,7 @@ fn main() {
 </code></pre></pre>
 <h2 id="future"><a class="header" href="#future">Future</a></h2>
 <p>可以理解为 <strong>将来的结果</strong>，在不确定的某个时刻会产生一个期望的结果。每一个 async 都会返回 <code>Future</code>，原型为：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>pub trait Future {
     type Output;
@@ -405,7 +405,7 @@ fn main() {
 <p>当使用 future 时，通常不会直接调用 poll，而是 .await 该值。</p>
 <h2 id="waker"><a class="header" href="#waker">Waker</a></h2>
 <p>可以理解为一个信号量，实际是一个特定的唤醒行为，当 <code>future</code> 有结果了，通知 <code>poll</code> 唤醒当前任务。原型为：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>#[repr(transparent)]
 pub struct Waker { /* fields omitted */ }
@@ -424,7 +424,7 @@ pub struct Waker { /* fields omitted */ }
 <h2 id="join-select"><a class="header" href="#join-select"><code>join!</code> 、<code>select!</code></a></h2>
 <h3 id="join-1"><a class="header" href="#join-1"><code>join!</code></a></h3>
 <p>Demo1 中提到要多个 <code>Future</code> 并发执行，可以使用 <code>join!</code>，感受一下这两段程序的区别：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn enjoy_book() {}
 async fn enjoy_music() {}
@@ -436,7 +436,7 @@ async fn enjoy_book_then_music() -&gt; (Book, Music) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn enjoy_book() {}
 async fn enjoy_music() {}
@@ -451,7 +451,7 @@ async fn enjoy_book_and_music() -&gt; (Book, Music) {
 <p>前者使用 <code>.await</code> 驱动 <code>Future</code>， <code>Future</code>时惰性的，驱动时才会执行，且需要全程驱动，所以后续 <code>Future</code> 只有在前一个完成的情况才会的到机会执行。<em>这种写法适合多个目标任务需要顺序运行，但不能阻塞其它任务的场景。如根据当前请求结果，发起下一次请求。</em></p>
 <p>后者使用 <code>join!</code> 同时驱动多个 <code>Future</code>，本质上还是在同一个线程内，所以更准确的描述时分时驱动，即并行。当所有 <code>Future</code> 都完成后，<code>join!</code> 退出。<em>这种写法适合执行多个互不相关目标任务的场景。如一次发起多个请求以获取多个文件。</em></p>
 <p>以上都是基于多个 <code>Future</code> 都成功完成的假设。那如果其中一个发生错误了呢？</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use futures::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use futures::{
 </span><span class="boring">   future::TryFutureExt,
 </span><span class="boring">   try_join,
 </span><span class="boring">   executor::block_on
@@ -490,7 +490,7 @@ async fn get_book_and_music() -&gt; Result&lt;(Book, Music), String&gt; {
 <p>HTTP 客户端向服务器请求资源就涵盖了上述三种场景。</p>
 <h3 id="select"><a class="header" href="#select"><code>select!</code></a></h3>
 <p>同样是同时执行多个 <code>Future</code>，感受一下下面的程序：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use futures::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use futures::{
 </span><span class="boring">   future::FutureExt, // for `.fuse()`
 </span><span class="boring">   pin_mut,
 </span><span class="boring">   select,
@@ -528,7 +528,7 @@ async fn race_tasks() {
 <div style="break-before: page; page-break-before: always;"></div><h1 id="demo-3"><a class="header" href="#demo-3">Demo 3</a></h1>
 <h2 id="pin--unpin"><a class="header" href="#pin--unpin"><code>Pin</code> 、 <code>UnPin</code></a></h2>
 <p>自引用类型：</p>
-<pre><pre class="playground"><code class="language-rust">struct Test {
+<pre><pre class="playground"><code class="language-rust edition2021">struct Test {
     a: String,
     b: *const String,
 }
@@ -590,7 +590,7 @@ fn main() {
 </code></pre></pre>
 <p>Rust 中大部分类型有默认实现了 <code>UnPin</code>，这是一个 trait，表示该类型的值是可以移动的（move）。</p>
 <p>实现了 <code>!Unpined</code> 的类型，表示 <strong>没有实现 <code>UnPin</code></strong>，不是固定、无法移动的意思（负负得正），而是表示 <strong>可以固定</strong>，需要显式的通过 <code>Pin</code> 将其固定，无法移动。</p>
-<pre><pre class="playground"><code class="language-rust">use std::pin::Pin;
+<pre><pre class="playground"><code class="language-rust edition2021">use std::pin::Pin;
 use std::marker::PhantomPinned;
 
 struct Test {

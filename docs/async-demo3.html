@@ -116,7 +116,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/thy1037/libp2p-course" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/rustedu/libp2p-slides" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -148,7 +148,7 @@
                         <h1 id="demo-3"><a class="header" href="#demo-3">Demo 3</a></h1>
 <h2 id="pin--unpin"><a class="header" href="#pin--unpin"><code>Pin</code> 、 <code>UnPin</code></a></h2>
 <p>自引用类型：</p>
-<pre><pre class="playground"><code class="language-rust">struct Test {
+<pre><pre class="playground"><code class="language-rust edition2021">struct Test {
     a: String,
     b: *const String,
 }
@@ -210,7 +210,7 @@ fn main() {
 </code></pre></pre>
 <p>Rust 中大部分类型有默认实现了 <code>UnPin</code>，这是一个 trait，表示该类型的值是可以移动的（move）。</p>
 <p>实现了 <code>!Unpined</code> 的类型，表示 <strong>没有实现 <code>UnPin</code></strong>，不是固定、无法移动的意思（负负得正），而是表示 <strong>可以固定</strong>，需要显式的通过 <code>Pin</code> 将其固定，无法移动。</p>
-<pre><pre class="playground"><code class="language-rust">use std::pin::Pin;
+<pre><pre class="playground"><code class="language-rust edition2021">use std::pin::Pin;
 use std::marker::PhantomPinned;
 
 struct Test {

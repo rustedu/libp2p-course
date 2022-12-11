@@ -5,8 +5,11 @@ multilingual = false
 src = "src"
 title = "动手学 rust-libp2p"
 
+[rust]
+edition = "2021"
+
 [build]
 build-dir = "docs"
 
 [output.html]
-git-repository-url = "https://github.com/thy1037/libp2p-course"
+git-repository-url = "https://github.com/rustedu/libp2p-slides"

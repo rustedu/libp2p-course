@@ -116,7 +116,7 @@
                         <a href="print.html" title="Print this book" aria-label="Print this book">
                             <i id="print-button" class="fa fa-print"></i>
                         </a>
-                        <a href="https://github.com/thy1037/libp2p-course" title="Git repository" aria-label="Git repository">
+                        <a href="https://github.com/rustedu/libp2p-slides" title="Git repository" aria-label="Git repository">
                             <i id="git-repository-button" class="fa fa-github"></i>
                         </a>
 
@@ -149,7 +149,7 @@
 <h2 id="join-select"><a class="header" href="#join-select"><code>join!</code> 、<code>select!</code></a></h2>
 <h3 id="join"><a class="header" href="#join"><code>join!</code></a></h3>
 <p>Demo1 中提到要多个 <code>Future</code> 并发执行，可以使用 <code>join!</code>，感受一下这两段程序的区别：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn enjoy_book() {}
 async fn enjoy_music() {}
@@ -161,7 +161,7 @@ async fn enjoy_book_then_music() -&gt; (Book, Music) {
 }
 <span class="boring">}
 </span></code></pre></pre>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">#![allow(unused)]
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
 </span>async fn enjoy_book() {}
 async fn enjoy_music() {}
@@ -176,7 +176,7 @@ async fn enjoy_book_and_music() -&gt; (Book, Music) {
 <p>前者使用 <code>.await</code> 驱动 <code>Future</code>， <code>Future</code>时惰性的，驱动时才会执行，且需要全程驱动，所以后续 <code>Future</code> 只有在前一个完成的情况才会的到机会执行。<em>这种写法适合多个目标任务需要顺序运行，但不能阻塞其它任务的场景。如根据当前请求结果，发起下一次请求。</em></p>
 <p>后者使用 <code>join!</code> 同时驱动多个 <code>Future</code>，本质上还是在同一个线程内，所以更准确的描述时分时驱动，即并行。当所有 <code>Future</code> 都完成后，<code>join!</code> 退出。<em>这种写法适合执行多个互不相关目标任务的场景。如一次发起多个请求以获取多个文件。</em></p>
 <p>以上都是基于多个 <code>Future</code> 都成功完成的假设。那如果其中一个发生错误了呢？</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use futures::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use futures::{
 </span><span class="boring">   future::TryFutureExt,
 </span><span class="boring">   try_join,
 </span><span class="boring">   executor::block_on
@@ -215,7 +215,7 @@ async fn get_book_and_music() -&gt; Result&lt;(Book, Music), String&gt; {
 <p>HTTP 客户端向服务器请求资源就涵盖了上述三种场景。</p>
 <h3 id="select"><a class="header" href="#select"><code>select!</code></a></h3>
 <p>同样是同时执行多个 <code>Future</code>，感受一下下面的程序：</p>
-<pre><pre class="playground"><code class="language-rust"><span class="boring">use futures::{
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use futures::{
 </span><span class="boring">   future::FutureExt, // for `.fuse()`
 </span><span class="boring">   pin_mut,
 </span><span class="boring">   select,
