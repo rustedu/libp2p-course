@@ -13,6 +13,9 @@
         - [测试](./rust-project-test.md)
 
 - [Lesson 3](./lesson3.md)
+    - [测例](lesson3-tests.md)
+    - [私聊](lesson3-chat.md)
+    - [超时问题](lesson3-timeout.md)
 - [Lesson 5](./lesson5.md)
 - [Lesson 8](./lesson8.md)
 

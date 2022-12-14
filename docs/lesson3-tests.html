@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>Demo 2 - 动手学 rust-libp2p</title>
+        <title>测例 - 动手学 rust-libp2p</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html" class="active"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html" class="active"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,121 +145,100 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="demo-2"><a class="header" href="#demo-2">Demo 2</a></h1>
-<h2 id="join-select"><a class="header" href="#join-select"><code>join!</code> 、<code>select!</code></a></h2>
-<h3 id="join"><a class="header" href="#join"><code>join!</code></a></h3>
-<p>Demo1 中提到要多个 <code>Future</code> 并发执行，可以使用 <code>join!</code>，感受一下这两段程序的区别：</p>
+                        <h1 id="测例"><a class="header" href="#测例">测例</a></h1>
+<p>rust 的 cargo 系统集成了测试系统，使得开发者不必再去编写或者挑选测试工具，在不使用 IDE 的情况下，依旧能有一个很棒的测试体验。</p>
+<h2 id="基本命令格式"><a class="header" href="#基本命令格式">基本命令格式</a></h2>
+<p><code>cargo test</code> [<em>options</em>] [<em>testname</em>] [<code>--</code> <em>test-options</em>]</p>
+<h2 id="单元测试"><a class="header" href="#单元测试">单元测试</a></h2>
+<p>是与源码写在一个文件中的测例。通常同于测试文件中的某些功能函数。用 <code>#[test]</code> 对测例函数进行注解。</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>async fn enjoy_book() {}
-async fn enjoy_music() {}
-
-async fn enjoy_book_then_music() -&gt; (Book, Music) {
-    let book = enjoy_book().await;
-    let music = enjoy_music().await;
-    (book, music)
+</span>#[test]
+fn test_peer_id() {
+    let local_key = identity::Keypair::generate_ed25519();
+    let local_peer_id = PeerId::from(local_key.public());
+    println!(&quot;Local peer id: {:?}&quot;, local_peer_id);
 }
 <span class="boring">}
 </span></code></pre></pre>
+<p>命令：</p>
+<pre><code class="language-bash">cargo test --example chat
+</code></pre>
+<h2 id="集成测试"><a class="header" href="#集成测试">集成测试</a></h2>
+<p>单独创建一个区域用于编写测例，这里测例通常都是功能丰富的，用于测试多个函数、模块是否可以正常合作，功能块的运行是否符合预期。</p>
+<p>cargo 默认将集成测试目录至与根目录中：</p>
+<pre><code>.
+├── Cargo.lock
+├── Cargo.toml
+├── examples
+│   └── ...
+├── README.md
+├── src
+│   └── ...
+└── tests
+    └── chat.rs
+</code></pre>
+<p>测例函数同样需要用 <code>#[test]</code> 对测例函数进行注解，且此时测试文件是一个完整的源码文件，依赖关系需要正确：</p>
 <pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span>async fn enjoy_book() {}
-async fn enjoy_music() {}
+</span>// ./tests/chat.rs
+use libp2p::{
+    floodsub::{self, Floodsub, FloodsubEvent},
+    identity,
+    mdns::{Mdns, MdnsConfig, MdnsEvent},
+    swarm::SwarmEvent,
+    Multiaddr, NetworkBehaviour, PeerId, Swarm,
+};
 
-async fn enjoy_book_and_music() -&gt; (Book, Music) {
-    let book = enjoy_book();
-    let music = enjoy_music();
-    join!(book, music)
+///
+/// ```
+/// let local_key = identity::Keypair::generate_ed25519();
+/// let local_peer_id = PeerId::from(local_key.public());
+/// assert!(true)
+/// ```
+/// 
+#[test]
+fn new_peer_id() {
+    let local_key = identity::Keypair::generate_ed25519();
+    let local_peer_id = PeerId::from(local_key.public());
+    assert!(true)
 }
 <span class="boring">}
 </span></code></pre></pre>
-<p>前者使用 <code>.await</code> 驱动 <code>Future</code>， <code>Future</code>时惰性的，驱动时才会执行，且需要全程驱动，所以后续 <code>Future</code> 只有在前一个完成的情况才会的到机会执行。<em>这种写法适合多个目标任务需要顺序运行，但不能阻塞其它任务的场景。如根据当前请求结果，发起下一次请求。</em></p>
-<p>后者使用 <code>join!</code> 同时驱动多个 <code>Future</code>，本质上还是在同一个线程内，所以更准确的描述时分时驱动，即并行。当所有 <code>Future</code> 都完成后，<code>join!</code> 退出。<em>这种写法适合执行多个互不相关目标任务的场景。如一次发起多个请求以获取多个文件。</em></p>
-<p>以上都是基于多个 <code>Future</code> 都成功完成的假设。那如果其中一个发生错误了呢？</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use futures::{
-</span><span class="boring">   future::TryFutureExt,
-</span><span class="boring">   try_join,
-</span><span class="boring">   executor::block_on
-</span><span class="boring">};
-</span><span class="boring">
-</span><span class="boring">struct Book {
-</span><span class="boring">   book: String,
-</span><span class="boring">}
-</span><span class="boring">
-</span><span class="boring">struct Music {
-</span><span class="boring">   music: String,
-</span><span class="boring">}
-</span><span class="boring">
-</span>async fn get_book() -&gt; Result&lt;Book, String&gt; {
-    Ok(Book{book: &quot;book&quot;.into()})
-}
-async fn get_music()-&gt; Result&lt;Music, String&gt; {
-    // Ok(Music{music: &quot;music&quot;.into()})
-    Err(&quot;music err&quot;.to_string())
-}
-
-async fn get_book_and_music() -&gt; Result&lt;(Book, Music), String&gt; {
-    let book = get_book().map_err(|e| e);
-    let music = get_music().map_err(|e| e);
-    try_join!(book, music)
-}
-
-<span class="boring">fn main() {
-</span><span class="boring">   match block_on(get_book_and_music()) {
-</span><span class="boring">       Ok((b, m)) =&gt; println!(&quot;{} {}&quot;, b.book, m.music),
-</span><span class="boring">       Err(e) =&gt; println!(&quot;{}&quot;, e),
-</span><span class="boring">   }
-</span><span class="boring">}
-</span></code></pre></pre>
-<p>可以使用 <code>try_join!</code> 来在发生错误时终止该段程序（并获取错误）。</p>
-<p>HTTP 客户端向服务器请求资源就涵盖了上述三种场景。</p>
-<h3 id="select"><a class="header" href="#select"><code>select!</code></a></h3>
-<p>同样是同时执行多个 <code>Future</code>，感受一下下面的程序：</p>
-<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">use futures::{
-</span><span class="boring">   future::FutureExt, // for `.fuse()`
-</span><span class="boring">   pin_mut,
-</span><span class="boring">   select,
-</span><span class="boring">   executor::block_on
-</span><span class="boring">};
-</span><span class="boring">
-</span>async fn task_one() -&gt; String {
-    &quot;task one completed first&quot;.into()
-}
-
-async fn task_two() -&gt; String {
-    &quot;task two completed first&quot;.into()
-}
-
-async fn race_tasks() {
-    let t1 = task_one().fuse();
-    let t2 = task_two().fuse();
-
-    pin_mut!(t1, t2);
-
-    select! {
-        msg = t1 =&gt; println!(&quot;{}&quot;, msg),
-        msg = t2 =&gt; println!(&quot;{}&quot;, msg),
-    }
-}
-<span class="boring">
+<p>命令：</p>
+<pre><code class="language-bash">cargo test --test chat
+</code></pre>
+<h2 id="文档测例"><a class="header" href="#文档测例">文档测例</a></h2>
+<p>cargo 有一套功能完善的文档系统，完善到可以在代码中写注释、在注释中写文档、在文档中写测例。</p>
+<blockquote>
+<p>注意：</p>
+<p>文档测例在库（<code>lib</code>）工程中有用。</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
 </span><span class="boring">fn main() {
-</span><span class="boring">   block_on(race_tasks());
-</span><span class="boring">}
+</span>///
+/// ```
+/// assert!(true);
+/// ```
+/// 
+mod handler;
+mod protocol;
+// ...
+<span class="boring">}
 </span></code></pre></pre>
-<p><code>select!</code> 在任何一个 <code>Future</code> 完成时就退出，这与 C 语言中的 <code>select()</code> 函数意思相近。<em>这种写法适合在同时执行多个目标任务，有完成的就立即处理的场景。</em></p>
-<p>通过 <code>loop{}</code> 可以达到 <code>join!</code> 相同的作用，完成所有 <code>Future</code>。</p>
-<p><code>fuse</code> 是保险丝的意思，可以理解为 <strong>熔断</strong>，即 <code>select!</code> 中已经完成的 <code>Future</code> 在后续的 <code>poll</code> 中都不会执行了。</p>
-<p><code>select!</code> 获取的是 <code>Future</code> 的可变引用，以保证未完成的 <code>Future</code> 在 <code>select!</code> 外仍有被驱动的能力，完成后仍可以得到响应。所以必须添加 <code>pin_mut!</code>。</p>
+<p>命令：</p>
+<pre><code class="language-bash">cargo test --doc
+</code></pre>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="async-demo1.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="lesson3.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="async-demo3.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="lesson3-chat.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -269,11 +248,11 @@ async fn race_tasks() {
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="async-demo1.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="lesson3.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="async-demo3.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="lesson3-chat.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

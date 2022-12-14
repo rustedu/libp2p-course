@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -785,6 +785,218 @@ members = [
 <li>文档测试</li>
 </ul>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-3"><a class="header" href="#lesson-3">Lesson 3</a></h1>
+<h2 id="1-添加测例"><a class="header" href="#1-添加测例">1. 添加测例</a></h2>
+<h2 id="2-实现私聊"><a class="header" href="#2-实现私聊">2. 实现私聊</a></h2>
+<h2 id="3-自由讨论"><a class="header" href="#3-自由讨论">3. 自由讨论</a></h2>
+<ul>
+<li><code>chat</code> 超时的解决方案</li>
+</ul>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="测例"><a class="header" href="#测例">测例</a></h1>
+<p>rust 的 cargo 系统集成了测试系统，使得开发者不必再去编写或者挑选测试工具，在不使用 IDE 的情况下，依旧能有一个很棒的测试体验。</p>
+<h2 id="基本命令格式"><a class="header" href="#基本命令格式">基本命令格式</a></h2>
+<p><code>cargo test</code> [<em>options</em>] [<em>testname</em>] [<code>--</code> <em>test-options</em>]</p>
+<h2 id="单元测试"><a class="header" href="#单元测试">单元测试</a></h2>
+<p>是与源码写在一个文件中的测例。通常同于测试文件中的某些功能函数。用 <code>#[test]</code> 对测例函数进行注解。</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>#[test]
+fn test_peer_id() {
+    let local_key = identity::Keypair::generate_ed25519();
+    let local_peer_id = PeerId::from(local_key.public());
+    println!(&quot;Local peer id: {:?}&quot;, local_peer_id);
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>命令：</p>
+<pre><code class="language-bash">cargo test --example chat
+</code></pre>
+<h2 id="集成测试"><a class="header" href="#集成测试">集成测试</a></h2>
+<p>单独创建一个区域用于编写测例，这里测例通常都是功能丰富的，用于测试多个函数、模块是否可以正常合作，功能块的运行是否符合预期。</p>
+<p>cargo 默认将集成测试目录至与根目录中：</p>
+<pre><code>.
+├── Cargo.lock
+├── Cargo.toml
+├── examples
+│   └── ...
+├── README.md
+├── src
+│   └── ...
+└── tests
+    └── chat.rs
+</code></pre>
+<p>测例函数同样需要用 <code>#[test]</code> 对测例函数进行注解，且此时测试文件是一个完整的源码文件，依赖关系需要正确：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// ./tests/chat.rs
+use libp2p::{
+    floodsub::{self, Floodsub, FloodsubEvent},
+    identity,
+    mdns::{Mdns, MdnsConfig, MdnsEvent},
+    swarm::SwarmEvent,
+    Multiaddr, NetworkBehaviour, PeerId, Swarm,
+};
+
+///
+/// ```
+/// let local_key = identity::Keypair::generate_ed25519();
+/// let local_peer_id = PeerId::from(local_key.public());
+/// assert!(true)
+/// ```
+/// 
+#[test]
+fn new_peer_id() {
+    let local_key = identity::Keypair::generate_ed25519();
+    let local_peer_id = PeerId::from(local_key.public());
+    assert!(true)
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>命令：</p>
+<pre><code class="language-bash">cargo test --test chat
+</code></pre>
+<h2 id="文档测例"><a class="header" href="#文档测例">文档测例</a></h2>
+<p>cargo 有一套功能完善的文档系统，完善到可以在代码中写注释、在注释中写文档、在文档中写测例。</p>
+<blockquote>
+<p>注意：</p>
+<p>文档测例在库（<code>lib</code>）工程中有用。</p>
+</blockquote>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>///
+/// ```
+/// assert!(true);
+/// ```
+/// 
+mod handler;
+mod protocol;
+// ...
+<span class="boring">}
+</span></code></pre></pre>
+<p>命令：</p>
+<pre><code class="language-bash">cargo test --doc
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="私聊"><a class="header" href="#私聊">私聊</a></h1>
+<p>作业内容：<br>
+修改 <code>examples/chat.rs</code> 代码，添加类似<strong>私聊</strong>的功能，即通过某种既定的方式，使得发送的消息只对指定的接收者显示。</p>
+<p>私聊格式：</p>
+<pre><code>@name msg
+</code></pre>
+<h2 id="方案一"><a class="header" href="#方案一">方案一</a></h2>
+<p>从接收方思考，即除了指定格式的消息能显示外，其它格式不显示：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>SwarmEvent::Behaviour(OutEvent::Floodsub(
+    FloodsubEvent::Message(message)
+)) =&gt; {
+    if let Some((token, msg)) = String::from_utf8_lossy(&amp;message.data).split_once(' ') {
+        if token == &quot;@name&quot; {
+            println!(
+                &quot;Received: '{:?}' from {:?}&quot;,
+                msg,
+                message.source
+            );
+        }
+    }
+    // println!(
+    //     &quot;Received: '{:?}' from {:?}&quot;,
+    //     String::from_utf8_lossy(&amp;message.data),
+    //     message.source
+    // );
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h2 id="方案二"><a class="header" href="#方案二">方案二</a></h2>
+<p>从发送方思考，发送的时候除了消息内容外，其实还有主题内容，那么可以在主题内容上做文章，从而实现私聊功能。</p>
+<ol>
+<li>增加一个主题订阅：</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// Create a Floodsub topic
+let floodsub_topic = floodsub::Topic::new(&quot;chat&quot;);
+
+behaviour.floodsub.subscribe(floodsub_topic.clone());
+behaviour.floodsub.subscribe(floodsub::Topic::new(&quot;@name&quot;).clone());
+<span class="boring">}
+</span></code></pre></pre>
+<ol start="2">
+<li>发送时修改主题：</li>
+</ol>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>let topic;
+let mut msg = line.expect(&quot;Stdin not to close&quot;);
+// '@' 开头 且 带有空格 ‘ ’
+if msg.starts_with(&quot;@&quot;) &amp;&amp; msg.contains(&quot; &quot;) {
+    // 用 ‘ ’ 分割消息主题，提取主题
+    let v: Vec&lt;&amp;str&gt; = msg.split(' ').collect();
+    println!(&quot;topic: {}&quot;, v[0]);
+    // 创建主题
+    topic = floodsub::Topic::new(v[0]);
+    msg = v[1].to_string();
+} else {
+    println!(&quot;topic: {}&quot;, &quot;chat&quot;);
+    topic = floodsub_topic.clone();
+}
+<span class="boring">}
+</span></code></pre></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="自由讨论"><a class="header" href="#自由讨论">自由讨论</a></h1>
+<h2 id="超时问题"><a class="header" href="#超时问题">超时问题</a></h2>
+<p>在运行 <code>chat</code> 例子的时候发现，当程序空闲（无数据交换）10秒左右，就再也无法发送、接收消息了。</p>
+<p>查找发现是因为：</p>
+<p><code>chat</code> 例子使用了 <code>floodsub</code> 协议，而 <code>floodsub</code> 使用了 <code>OneShotHandler</code> 网络行为（<code>NetworkBehaviourAction</code>）</p>
+<h3 id="解决方案1"><a class="header" href="#解决方案1">解决方案1</a></h3>
+<p>修改默认超时时间：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// swarm/src/handler/one_shot.rs
+impl Default for OneShotHandlerConfig {
+    fn default() -&gt; Self {
+        let timeout = 10;
+        OneShotHandlerConfig {
+            keep_alive_timeout: Duration::from_secs(timeout),
+            outbound_substream_timeout: Duration::from_secs(timeout),
+            max_dial_negotiated: 8,
+        }
+    }
+}
+<span class="boring">}
+</span></code></pre></pre>
+<h3 id="解决方案1-1"><a class="header" href="#解决方案1-1">解决方案1</a></h3>
+<p>去除超时事件抛出动作：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>// protocols/mdns/src/behaviour.rs
+
+// Emit expired event.
+// let now = Instant::now();
+// let mut closest_expiration = None;
+// let mut expired = SmallVec::&lt;[(PeerId, Multiaddr); 4]&gt;::new();
+// self.discovered_nodes.retain(|(peer, addr, expiration)| {
+//     if *expiration &lt;= now {
+//         log::info!(&quot;expired: {} {}&quot;, peer, addr);
+//         expired.push((*peer, addr.clone()));
+//         return false;
+//     }
+//     closest_expiration = Some(closest_expiration.unwrap_or(*expiration).min(*expiration));
+//     true
+// });
+// if !expired.is_empty() {
+//     let event = MdnsEvent::Expired(ExpiredAddrsIter {
+//         inner: expired.into_iter(),
+//     });
+//     return Poll::Ready(NetworkBehaviourAction::GenerateEvent(event));
+// }
+// if let Some(closest_expiration) = closest_expiration {
+//     let mut timer = T::at(closest_expiration);
+//     let _ = Pin::new(&amp;mut timer).poll_next(cx);
+
+//     self.closest_expiration = Some(timer);
+// }
+Poll::Pending
+
+<span class="boring">}
+</span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-5"><a class="header" href="#lesson-5">Lesson 5</a></h1>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-8"><a class="header" href="#lesson-8">Lesson 8</a></h1>
 
@@ -805,22 +1017,6 @@ members = [
 
         </div>
 
-        <!-- Livereload script (if served using the cli tool) -->
-        <script type="text/javascript">
-            const wsProtocol = location.protocol === 'https:' ? 'wss:' : 'ws:';
-            const wsAddress = wsProtocol + "//" + location.host + "/" + "__livereload";
-            const socket = new WebSocket(wsAddress);
-            socket.onmessage = function (event) {
-                if (event.data === "reload") {
-                    socket.close();
-                    location.reload();
-                }
-            };
-
-            window.onbeforeunload = function() {
-                socket.close();
-            }
-        </script>
 
 
 
