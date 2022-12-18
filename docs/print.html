@@ -82,7 +82,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson5-circuit-relay-v2.html"><strong aria-hidden="true">3.1.</strong> 回路中继 V2</a></li><li class="chapter-item expanded "><a href="lesson5-relay-code.html"><strong aria-hidden="true">3.2.</strong> Relay 代码导读</a></li><li class="chapter-item expanded "><a href="lesson5-trait.html"><strong aria-hidden="true">3.3.</strong> trait 介绍</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson5-trait-define.html"><strong aria-hidden="true">3.3.1.</strong> 定义</a></li><li class="chapter-item expanded "><a href="lesson5-trait-type.html"><strong aria-hidden="true">3.3.2.</strong> 作为类型</a></li><li class="chapter-item expanded "><a href="lesson5-trait-placeholder.html"><strong aria-hidden="true">3.3.3.</strong> 占位符</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -998,6 +998,435 @@ Poll::Pending
 <span class="boring">}
 </span></code></pre></pre>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-5"><a class="header" href="#lesson-5">Lesson 5</a></h1>
+<h2 id="circuit-relay-protocol-v2-介绍"><a class="header" href="#circuit-relay-protocol-v2-介绍">Circuit Relay protocol V2 介绍</a></h2>
+<h2 id="relay-代码导读"><a class="header" href="#relay-代码导读">Relay 代码导读</a></h2>
+<h2 id="trait-介绍"><a class="header" href="#trait-介绍">trait 介绍</a></h2>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="回路中继-v2"><a class="header" href="#回路中继-v2">回路中继 V2</a></h1>
+<blockquote>
+<p>这是对官方 <a href="https://github.com/libp2p/specs/blob/master/relay/circuit-v2.md"><code>Circuit Relay protocol V2</code></a> 规范的翻译</p>
+</blockquote>
+<p>这是 libp2p 回路中继协议的版本2。</p>
+<div class="table-wrapper"><table><thead><tr><th>生命周期阶段</th><th>完成度</th><th>状态</th><th>最新修订</th></tr></thead><tbody>
+<tr><td>3A</td><td>推荐</td><td>积极</td><td>r1, 2021-12-17</td></tr>
+</tbody></table>
+</div>
+<p>作者：@vyzo</p>
+<p>兴趣小组: <a href="https://github.com/mxinden">@mxinden</a>, <a href="https://github.com/stebalien">@stebalien</a>, <a href="https://github.com/raulk">@raulk</a></p>
+<p>有关完成度级别和规范状态的内容，请参阅<a href="https://github.com/libp2p/specs/blob/master/00-framework-01-spec-lifecycle.md">生命周期文档</a></p>
+<h2 id="目录"><a class="header" href="#目录">目录</a></h2>
+<ul>
+<li><a href="lesson5-circuit-relay-v2.html#%E4%BB%8B%E7%BB%8D">介绍</a>
+<ul>
+<li><a href="lesson5-circuit-relay-v2.html#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86">基本原理</a></li>
+</ul>
+</li>
+<li><a href="lesson5-circuit-relay-v2.html#%E5%8D%8F%E8%AE%AE%E5%86%85%E5%AE%B9">协议内容</a>
+<ul>
+<li><a href="lesson5-circuit-relay-v2.html#%E8%BF%9E%E6%8E%A5%E4%BA%A4%E4%BA%92">连接交互</a></li>
+<li><a href="lesson5-circuit-relay-v2.html#%60Hop%60%E8%B7%83%E7%82%B9%E5%8D%8F%E8%AE%AE"><code>Hop</code>跃点协议</a>
+<ul>
+<li><a href="lesson5-circuit-relay-v2.html#%E9%A2%84%E7%95%99">预留</a></li>
+<li><a href="lesson5-circuit-relay-v2.html#%E8%BF%9E%E6%8E%A5%E5%90%AF%E5%8A%A8">连接启动</a></li>
+</ul>
+</li>
+<li><a href="lesson5-circuit-relay-v2.html#%60Stop%60%E7%BB%88%E6%AD%A2%E5%8D%8F%E8%AE%AE"><code>Stop</code>终止协议</a></li>
+<li><a href="lesson5-circuit-relay-v2.html#%E9%A2%84%E7%95%99%E5%87%AD%E8%AF%81">预留凭证</a></li>
+</ul>
+</li>
+<li><a href="lesson5-circuit-relay-v2.html#protobuf">Protobuf</a></li>
+</ul>
+<h2 id="介绍"><a class="header" href="#介绍">介绍</a></h2>
+<p>这是 libp2p-circuit 中继协议的第2版规范内容。</p>
+<p>与第1版相比，有一些重要的不同之处：</p>
+<ul>
+<li>该协议已分为两个子协议，<code>hop</code> 和 <code>stop</code>
+<ul>
+<li><code>hop</code> 协议由客户端发起，在客户端向中继发送命令时使用；它用于在中继中保留资源并通过中继打开到度等点的交换连接。</li>
+<li><code>stop</code> 协议管理回路交换连接的端点</li>
+</ul>
+</li>
+<li>引入了资源预留的概念，希望使用中继的对等方明确预留资源并获得 <em>预留凭证</em>，这些预留凭证可以分发给它们的对等点用于路由。</li>
+<li>引入了有限中继的概念，由此中继提供具有时限持续时间和数据上限的交换连接。</li>
+</ul>
+<h3 id="基本原理"><a class="header" href="#基本原理">基本原理</a></h3>
+<p>协议向第2版演进是受到我们在实际场景中使用中继的体验的影响。原始协议非常灵活，但在中继连接的实用性方面存在一些局限性。</p>
+<p>主要问题是第1版没有在中继中保留资源的机制，这导致中继不断超额订阅，并且需要（通常无效的）试探来平衡资源。在实践中，运行中继被证明是一项繁重的任务，需要具有大量硬件和带宽成本的专用主机。此外，通过中继直接连接升级的打洞协调工作正在进行中，不需要无限中继连接。</p>
+<p>为了解决这种情况并无缝支持广泛打洞，我们引入了有限的中继和预定槽。这允许中继有效地管理其资源并提供小规模服务，从而能够部署中继大军以实现极端水平扩展，而无需过多的带宽成本和专用主机。</p>
+<p>此外，在最初，将回路启动和终止合并在同一协议中，使得按需提供中继服务变得非常困难，与主机是否支持客户端功能脱钩。</p>
+<p>为了解决这个问题，我们将协议拆分为 <code>hop</code> 和 <code>stop</code> 子协议。这使我们能够始终在主机中启用客户端功能，同时在通过 <a href="https://github.com/libp2p/specs/issues/180">AutoNAT</a> 确定主机的可达性后，提供稍后在公共主机中安装中继服务的选项。</p>
+<h2 id="协议内容"><a class="header" href="#协议内容">协议内容</a></h2>
+<h3 id="连接交互"><a class="header" href="#连接交互">连接交互</a></h3>
+<p>下图说明了在建立中继连接的过程中，三个对等点 <em>A</em>、<em>B</em> 和 <em>C</em> 之间的交互。节点A 是私有节点，不可公开访问；它利用对 等点R 的服务作为中继。对等B 是另一个希望通过 R 连接到 对等A 的对等点。</p>
+<p><img src="./imgs/relay-circuit-v2.svg" alt="Circuit v2 Protocol Interaction" /></p>
+<details>
+  <summary>图表重现说明</summary>
+<p>使用 <a href="https://plantuml.com/">https://plantuml.com/</a> 和下面的内容来重现图表。</p>
+<pre><code>@startuml
+skinparam backgroundColor white
+participant A
+participant R
+participant B
+
+skinparam sequenceMessageAlign center
+
+== 预留 ==
+
+A -&gt; R: [hop] 预留
+R -&gt; A: [hop] 状态: OK
+
+hnote over A: 预留即将到期。
+hnote over A: 刷新。
+
+A -&gt; R: [hop] 预留
+R -&gt; A: [hop] 状态: OK
+
+hnote over A: ...
+
+== 回路建立连接 ==
+
+B -&gt; R: [hop] 连接 A
+R -&gt; A: [stop] B 的连接
+A -&gt; R: [stop] 状态: OK
+R -&gt; B: [hop] 状态: OK
+
+B &lt;-&gt; A: 连接
+@enduml
+</code></pre>
+</details>
+<h3 id="hop跃点协议"><a class="header" href="#hop跃点协议"><code>Hop</code>跃点协议</a></h3>
+<p>Hop 协议管理客户端和中继之间的交互；它使用协议 ID /libp2p/circuit/relay/0.2.0/hop。</p>
+<p>协议分为两部分：</p>
+<ul>
+<li>预留，由希望接收中继服务的对等点发起；</li>
+<li>连接初始化，由希望通过中继连接某对等点的对等点发起。</li>
+</ul>
+<h4 id="预留"><a class="header" href="#预留">预留</a></h4>
+<p>为了创建一个预留，对等点打开一个和中继的连接，并以 <code>type = RESERVE</code> 发送一条 <code>HopMessage</code>:</p>
+<pre><code>HopMessage {
+  type = RESERVE
+}
+</code></pre>
+<p>中继以 <code>type = STATUS</code> 响应一条 <code>HopMessage</code>，用来指示预留是否被中继接受。</p>
+<p>如果预留被接受，回送的消息符合一下格式：</p>
+<pre><code>HopMessage {
+  type = STATUS
+  status = OK
+  reservation = Reservation {...}
+  limit = Limit {...}
+}
+</code></pre>
+<p>如果预留被拒绝，中继回送的 <code>HopMessage</code> 符合一下格式：</p>
+<pre><code>HopMessage {
+  type = STATUS
+  status = ...
+}
+</code></pre>
+<p>其中 <code>status</code> 字段的值非 <code>OK</code>。常见的拒绝状态码有：</p>
+<ul>
+<li><code>PERMISSION_DENIED</code> 由于使用 ACL 的对等过滤而被拒绝预留；</li>
+<li><code>RESERVATION_REFUSED</code> 由于其它原因，如预留过多，而被拒绝预留。</li>
+</ul>
+<p><code>reservation</code> 字段提供有关预订本身的信息，该结构具有以下字段：</p>
+<pre><code>Reservation {
+   expire = ...
+   addrs = [...]
+   voucher = ...
+}
+</code></pre>
+<ul>
+<li><code>expire</code> 包含 UTC UNIX 过期时间。预留将在此时间后无效，客户端负责更新；</li>
+<li><code>addrs</code> 包含所有公共中继的地址，包括中继节点的 peerID，但不包含尾部的 <code>p2p-circuit</code> 部分；客户端可以使用这个列表构建自己的 <code>p2p-circuit</code> 中继地址用来广播，通过封装 <code>p2p-circuit/p2p/QmPeer</code>，其中 <code>QmPeer</code> 是它自己的 peerID。</li>
+<li><code>vocher</code> 是二进制形式的预留凭证，详细信息参阅 [预留凭证]</li>
+</ul>
+<p><code>HopMessage</code> 如果存在 <code>limit</code> 字段，则该字段提供中继在中继连接中应用的限制信息。如果不存在，则表示中继施加任何限制。该结构具有以下字段：</p>
+<pre><code>Limit {
+  duration = ...
+  data = ...
+}
+</code></pre>
+<ul>
+<li><code>duration</code> 表示中继连接的最大持续时间（单位秒）；如果为 0，则没有限制；</li>
+<li><code>data</code> 表示在每个方向上传输的最大字节数；如果为 0,则没有限制。</li>
+</ul>
+<p>注意，只要存在从对等点到中继的活跃连接，预留 在到期之前一直有效。如果对等点断开连接，则 预留 不再有效。</p>
+<p>在所有 预留 都过期后，中继服务器可能会根据其管理策略断开连接。期望服务器将尽最大努力在任何保留期间保持连接，并根据其连接管理策略对其进行标记以防止意外终止。但是，如果中继服务器过载，它仍可能会断开保留连接以维持其资源配额。</p>
+<p><em><strong>注意： 协议实现不应该接受已中继的预留</strong></em></p>
+<h4 id="连接启动"><a class="header" href="#连接启动">连接启动</a></h4>
+<p>为了通过中继发起一个到对等点的连接，发起者打开一个连接，并发送以 <code>type = CONNECT</code> 的 <code>HopMessage</code>:</p>
+<pre><code>HopMessage {
+  type = CONNECT
+  peer = Peer {...}
+}
+</code></pre>
+<p>其中 <code>peer</code> 字段是一个对等点结构，包含目标对等点的<code>ID</code> 和在主动中继情况下的对等点地址（可选）：</p>
+<pre><code>Peer {
+  id = ...
+  addrs = [...]
+}
+</code></pre>
+<p><em><strong>注意：出于安全原因，主动中继功能被认为已弃用，至少在公共中继中是这样</strong></em></p>
+<p>尽管如此，该协议仍保留该字段以支持在受控环境中实际需要使用主动中继功能的极少数情况下的功能。</p>
+<p>如果中继有来自对等点的预留（因此是活跃连接），则它使用 <code>stop</code> 协议打开连接的第二跳；细节与协议无关，<code>hop</code> 唯一重要的是它是否成功打开中继连接。如果中继连接成功建立，则中继回送以 <code>type = STATUS</code> 和 <code>status = OK</code> 的 <code>HopMessage</code> ：</p>
+<pre><code>HopMessage {
+  type = STATUS
+  status = OK
+  limit = Limit {...}
+}
+</code></pre>
+<p>此时原始 <code>hop</code> 流成为中继连接。该字段（如果存在）通过上述 <code>limit</code> 语义向发起者传达应用与中继连接的限制。</p>
+<p>如果无法建立中继连接，则中继回送以 <code>type = STATUS</code> 和 非<code>Ok</code> 的 <code>status</code> 的 <code>HopMessage</code>。常见的故障状态码有：</p>
+<ul>
+<li><code>PERMISSION_DENIED</code> 连接由于 ACL 的对等过滤而被拒绝；</li>
+<li><code>NO_RESERVATION</code> 目标对等点没有活跃保留；</li>
+<li><code>RESOURCE_LIMIT_EXCEEDED</code> 发起者或目标对等点的中继连接过多；</li>
+<li><code>CONNECTION_FAILED</code> 中继无法值终止与目标对等点的连接。</li>
+</ul>
+<p><em><strong>注意：协议实现不应该接受已中继连接的连接启动</strong></em></p>
+<h3 id="stop终止协议"><a class="header" href="#stop终止协议"><code>Stop</code>终止协议</a></h3>
+<p>Stop 协议管理中继和目标对等点之间的连接终止；使用协议 ID <code>/libp2p/circuit/relay/0.2.0/stop</code>。</p>
+<p>为了终止中继连接，中继使用到目标对等点的现有连接打开流。如果不存在现有连接，主动中继可能会尝试是使用发起者提供的地址打开一个连接，但正如上一节所述，此功能通常被弃用。</p>
+<p>中继发送带有 <code>type = CONNECT</code> 的 <code>StopMessage</code>，形式如下：</p>
+<pre><code>StopMessage {
+  type = CONNECT
+  peer = Peer { ID = ...}
+  limit = Limit { ...}
+}
+</code></pre>
+<ul>
+<li><code>peer</code> 包含一个有发起者 <code>ID</code> 的 <code>Peer</code> 结构体；</li>
+<li><code>limit</code> 如果有，则具有上一节所述的限制。</li>
+</ul>
+<p>如果目标对等点接受（终止）连接，则以 <code>type = STATUS</code> 和 <code>status = OK</code> 的 <code>StopMessage</code> 回送给中继：</p>
+<pre><code>StopMessage {
+  type = STATUS
+  status = OK
+}
+</code></pre>
+<p>此时原始 <code>stop</code> 流成为中继连接。</p>
+<p>如果目标由于某种原因未能接受终止连接，则它会以 <code>type = STATUS</code> 和非 <code>Ok</code> 的 <code>status</code> 回送给中继。常见的状态码有：</p>
+<ul>
+<li><code>CONNECTION_FAILED</code> 由于某种原因在内部无法创建中继连接。</li>
+</ul>
+<h3 id="预留凭证"><a class="header" href="#预留凭证">预留凭证</a></h3>
+<p>有效预留应具有 <em>预留凭证</em>（Reservation Vouchers）。这些是由中继签名的加密证书，证明它愿意为对等点提供预留服务。目的是最终要求使用预留凭证对中继进行拨号，但目前无强制要求，因此凭证仅供参考。</p>
+<p>凭证本身是一个<a href="https://github.com/libp2p/specs/blob/master/RFC/0002-signed-envelopes.md">签名信封</a>。信封域是 <code>libp2p-relay-rsvp</code> 并且使用 multicodec 编码 <code>0x0302</code>。</p>
+<p>信封具有以下有效内容，采用 protobuf 格式：</p>
+<pre><code>message Voucher {
+  required bytes relay = 1;
+  required bytes peer = 2;
+  required uint64 expiration = 3;
+}
+</code></pre>
+<ul>
+<li><code>relay</code> 是中继的 peerID；</li>
+<li><code>peer</code> 是预留点的 peerID；</li>
+<li><code>expiration</code> 是预留的 UNIX UTC 到期时间。</li>
+</ul>
+<p>所有内容是规定好的，其中消息的元素按字段 ID 顺序写入，没有未知字段。</p>
+<h2 id="protobuf"><a class="header" href="#protobuf">Protobuf</a></h2>
+<pre><code class="language-protobuf">message HopMessage {
+  enum Type {
+    RESERVE = 0;
+    CONNECT = 1;
+    STATUS = 2;
+  }
+  required Type type = 1;
+  optional Peer peer = 2;
+  optional Reservation reservation = 3;
+  optional Limit limit = 4;
+  optional Status status = 5;
+}
+message StopMessage {
+  enum Type {
+    CONNECT = 0;
+    STATUS = 1;
+  }
+  required Type type = 1;
+  optional Peer peer = 2;
+  optional Limit limit = 3;
+  optional Status status = 4;
+}
+message Peer {
+  required bytes id = 1;
+  repeated bytes addrs = 2;
+}
+message Reservation {
+  required uint64 expire = 1; // Unix expiration time (UTC)
+  repeated bytes addrs = 2;   // relay addrs for reserving peer
+  optional bytes voucher = 3; // reservation voucher
+}
+message Limit {
+  optional uint32 duration = 1; // seconds
+  optional uint64 data = 2;     // bytes
+}
+enum Status {
+  OK                      = 100;
+  RESERVATION_REFUSED     = 200;
+  RESOURCE_LIMIT_EXCEEDED = 201;
+  PERMISSION_DENIED       = 202;
+  CONNECTION_FAILED       = 203;
+  NO_RESERVATION          = 204;
+  MALFORMED_MESSAGE       = 400;
+  UNEXPECTED_MESSAGE      = 401;
+}
+</code></pre>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="relay-代码导读-1"><a class="header" href="#relay-代码导读-1">Relay 代码导读</a></h1>
+<h2 id="clap"><a class="header" href="#clap">clap</a></h2>
+<p>默认参数</p>
+<h2 id="协议规范"><a class="header" href="#协议规范">协议规范</a></h2>
+<h2 id="与-floodsub-的对比"><a class="header" href="#与-floodsub-的对比">与 floodsub 的对比</a></h2>
+<div class="table-wrapper"><table><thead><tr><th>floodsub</th><th>relay</th></tr></thead><tbody>
+<tr><td>layer.rs</td><td>client relay.rs relay</td></tr>
+<tr><td>topic.rs protocol.rs</td><td>protocol.rs protocol</td></tr>
+<tr><td>rpc.proto</td><td>message.proto</td></tr>
+</tbody></table>
+</div>
+<h2 id="hop-协议"><a class="header" href="#hop-协议">hop 协议</a></h2>
+<p>预留请求：accept()、deny()</p>
+<p>回路请求：accept()、deny()</p>
+<h2 id="stop-协议"><a class="header" href="#stop-协议">stop 协议</a></h2>
+<p>回路建立：accept()、deny()</p>
+<h2 id="客户端"><a class="header" href="#客户端">客户端</a></h2>
+<ul>
+<li>handler.rs</li>
+</ul>
+<p>Reserve, EstablishCircuit, 事件类型；</p>
+<p>swarm 连接处理（监听、拨号……）</p>
+<p>预留 Reservation</p>
+<ul>
+<li>transport.rs</li>
+</ul>
+<p>需要中继的地址上的监听和拨号处理</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="trait-介绍-1"><a class="header" href="#trait-介绍-1">trait 介绍</a></h1>
+<p>在面向对象的语言中，才会有函数和方法的概念的区分，简单的区分依据是，对象外的称为函数，对象内的称为方法。</p>
+<p>进而由接口的概念，对象中的方法，只有申明没有实现，称为接口。</p>
+<p>接口的集合，称为接口类</p>
+<p>各个语言的源语略有区别，如接口、虚函数、纯虚函数，都是差不多的意思，各自添加了一些特性。</p>
+<p><code>trait</code> 就是 Rust 的 “接口类”，而对于这个接口类，Rust 所添加的特性是：</p>
+<ul>
+<li>服务于类型，而不是类</li>
+<li>可以作为类型</li>
+<li>支持泛型和生命周期，及其自由组合</li>
+</ul>
+<p>因此 <code>trait</code> 可以理解为：定义了一种 <strong>类型</strong>，这种类型用于描述了 <strong>另一种类型</strong> 的 <strong>接口</strong> 。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="trait-定义"><a class="header" href="#trait-定义">trait 定义</a></h1>
+<pre><pre class="playground"><code class="language-rust edition2021">trait SomeOpts {
+    fn pair(&amp;self) -&gt; i32;
+    fn falf(&amp;self) -&gt; i32;
+    fn zero(&amp;self) -&gt; i32 {
+        0
+    }
+}
+
+impl SomeOpts for i32 {
+    fn pair(&amp;self) -&gt; i32 {
+        self * 2
+    }
+    fn falf(&amp;self) -&gt; i32 {
+        self / 2
+    }
+}
+
+fn main() {
+    let a: i32 = 3;
+    println!(&quot;pair of a: {}&quot;, a.pair());
+    println!(&quot;falf of a: {}&quot;, a.falf());
+}
+</code></pre></pre>
+<p>这里没有定义 <code>struct</code>，就是为了体现 <code>trait</code> 服务于类型，而不是简单的类（对象）。</p>
+<p><code>SomeOpts</code> 内定义了一系列的方法，其中由一个含有默认实现。Rust 规定为某个类型添加 <code>trait</code> 时，需要将其内的所有方法都实现，未实现的方法使用其默认方法。</p>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="作为类型"><a class="header" href="#作为类型">作为类型</a></h1>
+<p>Rust 中 <code>trait</code> 本身可以作为类型，用来描述变量的类型，这里的变量就包含的函数、方法的入口参数和返回值的类型。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">trait Opts1 {
+    fn pair(&amp;self) -&gt; i32;
+    fn falf(&amp;self) -&gt; i32;
+}
+
+trait Opts2 {
+    fn triple(&amp;self) -&gt; i32;
+}
+
+impl Opts1 for i32 {
+    fn pair(&amp;self) -&gt; i32 {
+        self * 2
+    }
+
+    fn falf(&amp;self) -&gt; i32 {
+        self / 2
+    }
+}
+
+impl Opts2 for i32 {
+    fn triple(&amp;self) -&gt; i32 {
+        self * 3
+    }
+}
+
+fn do_pair(a: impl Opts1) -&gt; impl Opts1{
+    let a = a.pair();
+    a
+}
+
+fn do_falf(a: impl Opts1) -&gt; impl Opts1{
+    let a = a.falf();
+    a
+}
+
+fn do_triple(a: impl Opts1 + Opts2) -&gt; i32 {
+    let a = a.pair().falf();
+    a.triple()
+}
+
+fn main() {
+    let a: i32 = 3;
+
+    do_pair(do_falf(a));
+    println!(&quot;triple of a: {}&quot;, do_triple(a));
+}
+</code></pre></pre>
+<p>这里不仅体现了 <code>trait</code> 可以作为类型来描述入口参数和返回值，还体现了 Rust 一个强大的特性，类型可以用运算符的形式来更加精确的描述。</p>
+<blockquote>
+<p>用实际行动来体现 <strong>组合大于继承</strong> 的设计原则</p>
+</blockquote>
+<div style="break-before: page; page-break-before: always;"></div><h1 id="占位符"><a class="header" href="#占位符">占位符</a></h1>
+<p>在异步编程中曾介绍了 <code>Future</code>，其原型是：</p>
+<pre><pre class="playground"><code class="language-rust edition2021"><span class="boring">#![allow(unused)]
+</span><span class="boring">fn main() {
+</span>pub trait Future {
+    type Output;
+    fn poll(self: Pin&lt;&amp;mut Self&gt;, cx: &amp;mut Context&lt;'_&gt;) -&gt; Poll&lt;Self::Output&gt;;
+}
+<span class="boring">}
+</span></code></pre></pre>
+<p>这里的 <code>Output</code> 就是一个类型占位符，在设计 <code>trait</code> 之时，没有明确规定类型，具体类型可以交给实现者定义。</p>
+<pre><pre class="playground"><code class="language-rust edition2021">trait Opts {
+    type Output;
+    fn pair(&amp;self) -&gt; Self::Output;
+}
+
+impl Opts for i32 {
+    type Output = i32;
+    fn pair(&amp;self) -&gt; Self::Output {
+        self * 2
+    }
+}
+
+impl Opts for String {
+    type Output = String;
+    fn pair(&amp;self) -&gt; Self::Output {
+        format!(&quot;{}{}&quot;, self, self)
+    }
+}
+
+fn main() {
+    let a: i32 = 3;
+    let msg: String = &quot;msg&quot;.into();
+
+    println!(&quot;pair of a: {}&quot;, a.pair());
+    println!(&quot;pair of a: {}&quot;, msg.pair());
+}
+</code></pre></pre>
+<p>这种方式类似于泛型编程，个人理解就是占位符是一种强约束性的泛型，在内部逻辑依赖具体类型时，从书写和阅读等方面，占位符会有更优雅的体验。</p>
 <div style="break-before: page; page-break-before: always;"></div><h1 id="lesson-8"><a class="header" href="#lesson-8">Lesson 8</a></h1>
 
                     </main>

@@ -3,7 +3,7 @@
     <head>
         <!-- Book generated using mdBook -->
         <meta charset="UTF-8">
-        <title>工程目录结构 - 动手学 rust-libp2p</title>
+        <title>trait 介绍 - 动手学 rust-libp2p</title>
 
 
         <!-- Custom HTML head -->
@@ -81,7 +81,7 @@
 
         <nav id="sidebar" class="sidebar" aria-label="Table of contents">
             <div class="sidebar-scrollbox">
-                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html" class="active"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson5-circuit-relay-v2.html"><strong aria-hidden="true">3.1.</strong> 回路中继 V2</a></li><li class="chapter-item expanded "><a href="lesson5-relay-code.html"><strong aria-hidden="true">3.2.</strong> Relay 代码导读</a></li><li class="chapter-item expanded "><a href="lesson5-trait.html"><strong aria-hidden="true">3.3.</strong> trait 介绍</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson5-trait-define.html"><strong aria-hidden="true">3.3.1.</strong> 定义</a></li><li class="chapter-item expanded "><a href="lesson5-trait-type.html"><strong aria-hidden="true">3.3.2.</strong> 作为类型</a></li><li class="chapter-item expanded "><a href="lesson5-trait-placeholder.html"><strong aria-hidden="true">3.3.3.</strong> 占位符</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
+                <ol class="chapter"><li class="chapter-item expanded "><a href="lesson2.html"><strong aria-hidden="true">1.</strong> Lesson 2</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="floodsub_code.html"><strong aria-hidden="true">1.1.</strong> Floodsub 代码导读</a></li><li class="chapter-item expanded "><a href="异步编程.html"><strong aria-hidden="true">1.2.</strong> async 异步编程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="异步编程的演进.html"><strong aria-hidden="true">1.2.1.</strong> 异步编程的演进</a></li><li class="chapter-item expanded "><a href="async-demo1.html"><strong aria-hidden="true">1.2.2.</strong> Demo 1</a></li><li class="chapter-item expanded "><a href="async-demo2.html"><strong aria-hidden="true">1.2.3.</strong> Demo 2</a></li><li class="chapter-item expanded "><a href="async-demo3.html"><strong aria-hidden="true">1.2.4.</strong> Demo 3</a></li></ol></li><li class="chapter-item expanded "><a href="rust-project.html"><strong aria-hidden="true">1.3.</strong> Rust 工程</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="rust-project-tree.html"><strong aria-hidden="true">1.3.1.</strong> 工程目录结构</a></li><li class="chapter-item expanded "><a href="rust-project-prores.html"><strong aria-hidden="true">1.3.2.</strong> 属性</a></li><li class="chapter-item expanded "><a href="rust-project-test.html"><strong aria-hidden="true">1.3.3.</strong> 测试</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson3.html"><strong aria-hidden="true">2.</strong> Lesson 3</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson3-tests.html"><strong aria-hidden="true">2.1.</strong> 测例</a></li><li class="chapter-item expanded "><a href="lesson3-chat.html"><strong aria-hidden="true">2.2.</strong> 私聊</a></li><li class="chapter-item expanded "><a href="lesson3-timeout.html"><strong aria-hidden="true">2.3.</strong> 超时问题</a></li></ol></li><li class="chapter-item expanded "><a href="lesson5.html"><strong aria-hidden="true">3.</strong> Lesson 5</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson5-circuit-relay-v2.html"><strong aria-hidden="true">3.1.</strong> 回路中继 V2</a></li><li class="chapter-item expanded "><a href="lesson5-relay-code.html"><strong aria-hidden="true">3.2.</strong> Relay 代码导读</a></li><li class="chapter-item expanded "><a href="lesson5-trait.html" class="active"><strong aria-hidden="true">3.3.</strong> trait 介绍</a></li><li><ol class="section"><li class="chapter-item expanded "><a href="lesson5-trait-define.html"><strong aria-hidden="true">3.3.1.</strong> 定义</a></li><li class="chapter-item expanded "><a href="lesson5-trait-type.html"><strong aria-hidden="true">3.3.2.</strong> 作为类型</a></li><li class="chapter-item expanded "><a href="lesson5-trait-placeholder.html"><strong aria-hidden="true">3.3.3.</strong> 占位符</a></li></ol></li></ol></li><li class="chapter-item expanded "><a href="lesson8.html"><strong aria-hidden="true">4.</strong> Lesson 8</a></li></ol>
             </div>
             <div id="sidebar-resize-handle" class="sidebar-resize-handle"></div>
         </nav>
@@ -145,100 +145,28 @@
 
                 <div id="content" class="content">
                     <main>
-                        <h1 id="rust-工程结构"><a class="header" href="#rust-工程结构">Rust 工程结构</a></h1>
-<p>对于一个 Rust 工程常见的三种工程目录结构：</p>
-<ol>
-<li><code>cargo new</code> 原始工程</li>
-</ol>
-<pre><code>.
-├── .gitignore
-├── .git
-│   └── ...
-├── Cargo.toml
-└── src
-    └── lib.rs/main.rs
-</code></pre>
-<p>适用于简单工程，通常是一些临时工程，用来快速验证某种想法，如临时写个demo、tool。</p>
-<p>常用命令：<code>cargo run</code>、<code>cargo build</code></p>
-<ol start="2">
-<li>单个工程的完整目录</li>
-</ol>
-<pre><code>.
-├── .gitignore
-├── .git
-│   └── ...
-├── Cargo.toml
-├── src
-│   ├── lib.rs/main.rs
-│   └── bin
-│       ├── named-executable.rs
-│       ├── another-executable.rs
-│       └── multi-file-executable
-│           ├── main.rs
-│           └── some_module.rs
-├── benches
-│   ├── large-input.rs
-│   └── multi-file-bench
-│       ├── main.rs
-│       └── bench_module.rs
-├── examples
-│   ├── simple.rs
-│   └── multi-file-example
-│       ├── main.rs
-│       └── ex_module.rs
-└── tests
-    ├── some-integration-tests.rs
-    └── multi-file-test
-        ├── main.rs
-        └── test_module.rs
-</code></pre>
-<p>这是一个典型的 crate 结构，一个完整的项目应具备上述所有内容，对性能不敏感的项目可能会没有 <code>benches</code>。</p>
-<ol start="3">
-<li>工作空间
-即 <code>workspace</code>，将多个工程组成一个工作空间</li>
-</ol>
-<pre><code>.
-├── .gitignore
-├── .git
-│   └── ...
-├── Cargo.toml
-│── src
-│   └── lib.rs/main.rs
-├── proj1
-│   ├── Cargo.toml
-│   └── src
-│       └── lib.rs/main.rs
-├── proj2
-│   ├── Cargo.toml
-│   └── src
-│       └── lib.rs/main.rs
-└── proj3
-    ├── Cargo.toml
-    └── src
-        └── lib.rs/main.rs
-</code></pre>
-<p>根目录下的 <code>Cargo.toml</code> 一定会有 <code>[workspace]</code> 选项，用来显式的描述该工作空间内的成员工程：</p>
-<pre><code class="language-toml">[workspace]
-members = [
-    &quot;core&quot;,
-    &quot;misc/metrics&quot;,
-    &quot;misc/multistream-select&quot;,
-    &quot;misc/rw-stream-sink&quot;,
-]
-</code></pre>
-<p>当遇到更大项目，大到其中的某个功能都可以拿出来单独作为一个 crate 进行开发、维护时，就可以使用这种结构。</p>
-<p>libp2p 就是这样产生的，本身时 <code>ipfs</code> 的功能组件，后来被提出来的单独开发，rust 实现版本 <code>rust-libp2p</code> 就是这种目录结构。而因为 libp2p 又有功能值的单独开发，<code>rust-libp2p</code> 中就将这类功能作为 <code>member</code>,如 <code>swarm</code> 等。</p>
-<p>还有一种情况适用与这种结构：组件工程不在一个目录中，用 workspace 的形式讲他们组合起来，可以指定绝对路径。</p>
+                        <h1 id="trait-介绍"><a class="header" href="#trait-介绍">trait 介绍</a></h1>
+<p>在面向对象的语言中，才会有函数和方法的概念的区分，简单的区分依据是，对象外的称为函数，对象内的称为方法。</p>
+<p>进而由接口的概念，对象中的方法，只有申明没有实现，称为接口。</p>
+<p>接口的集合，称为接口类</p>
+<p>各个语言的源语略有区别，如接口、虚函数、纯虚函数，都是差不多的意思，各自添加了一些特性。</p>
+<p><code>trait</code> 就是 Rust 的 “接口类”，而对于这个接口类，Rust 所添加的特性是：</p>
+<ul>
+<li>服务于类型，而不是类</li>
+<li>可以作为类型</li>
+<li>支持泛型和生命周期，及其自由组合</li>
+</ul>
+<p>因此 <code>trait</code> 可以理解为：定义了一种 <strong>类型</strong>，这种类型用于描述了 <strong>另一种类型</strong> 的 <strong>接口</strong> 。</p>
 
                     </main>
 
                     <nav class="nav-wrapper" aria-label="Page navigation">
                         <!-- Mobile navigation buttons -->
-                            <a rel="prev" href="rust-project.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                            <a rel="prev" href="lesson5-relay-code.html" class="mobile-nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                                 <i class="fa fa-angle-left"></i>
                             </a>
 
-                            <a rel="next" href="rust-project-prores.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                            <a rel="next" href="lesson5-trait-define.html" class="mobile-nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                                 <i class="fa fa-angle-right"></i>
                             </a>
 
@@ -248,11 +176,11 @@ members = [
             </div>
 
             <nav class="nav-wide-wrapper" aria-label="Page navigation">
-                    <a rel="prev" href="rust-project.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
+                    <a rel="prev" href="lesson5-relay-code.html" class="nav-chapters previous" title="Previous chapter" aria-label="Previous chapter" aria-keyshortcuts="Left">
                         <i class="fa fa-angle-left"></i>
                     </a>
 
-                    <a rel="next" href="rust-project-prores.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
+                    <a rel="next" href="lesson5-trait-define.html" class="nav-chapters next" title="Next chapter" aria-label="Next chapter" aria-keyshortcuts="Right">
                         <i class="fa fa-angle-right"></i>
                     </a>
             </nav>

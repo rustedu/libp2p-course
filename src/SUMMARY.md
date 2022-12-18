@@ -17,5 +17,11 @@
     - [私聊](lesson3-chat.md)
     - [超时问题](lesson3-timeout.md)
 - [Lesson 5](./lesson5.md)
+    - [回路中继 V2](./lesson5-circuit-relay-v2.md)
+    - [Relay 代码导读](./lesson5-relay-code.md)
+    - [trait 介绍](./lesson5-trait.md)
+        - [定义](./lesson5-trait-define.md)
+        - [作为类型](./lesson5-trait-type.md)
+        - [占位符](./lesson5-trait-placeholder.md)
 - [Lesson 8](./lesson8.md)
 
